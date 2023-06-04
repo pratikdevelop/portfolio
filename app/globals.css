@@ -16,4 +16,11 @@ box-sizing: border-box;
 
 #about {
   font-family:'Merriweather', serif !important;
+  padding: 4rem 8rem;
+}
+
+.about-heading {
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
+  font-size: 2rem;
+  font-weight: 700;
 }

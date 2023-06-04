@@ -10,12 +10,11 @@ const NavBar = () => {
   return (
     <>
       <header
-        className="fixed w-full h-16 px-8 py-3 "
-        style={{ fontFamily: "sans-serif" }}
+        className="fixed w-full bg-transparent px-8 py-3 "
       >
         <nav className="flex justify-between items-center max-w-screen-xl">
-          <div className="text-2xl font-serif drop-shadow-2xl font-extrabold  tracking-wide text-slate-800">
-            Port<span className="text-orange-400 font-serif">Folio</span>
+          <div className="text-2xl font-serif drop-shadow-2xl font-extrabold  tracking-wide text-white">
+            Port<span className="text-purple-600 font-serif">Folio</span>
           </div>
 
           <div
@@ -23,7 +22,7 @@ const NavBar = () => {
           >
             <Link
               href={"/"}
-              className="text-slate-800  hover:text-orange-500 hover:border-b-2 hover:border-orange-500  text-sm tracking-wider font-semibold drop-shadow-2xl uppercase transition-delay-300 duration-300 
+              className="text-white  hover:text-purple-600 hover:border-b-1 hover:border-purple-500  text-sm tracking-wider font-semibold drop-shadow-2xl capitalize duration-300 
           ease-in-out"
             >
               Home
@@ -31,30 +30,30 @@ const NavBar = () => {
 
             <Link
               href={"#about"}
-              className="text-sm tracking-wider font-semibold drop-shadow-2xl uppercase transition-delay-300 duration-300 
-          ease-in-out hover:text-orange-500 hover:border-b-2 hover:border-orange-500 text-slate-800 "
+              className="text-sm tracking-wider font-semibold drop-shadow-2xl capitalize duration-300 
+          ease-in-out hover:text-purple-600 hover:border-b-1 hover:border-purple-500 text-white "
             >
               About
             </Link>
 
             <Link
               href={"#skills"}
-              className="text-sm tracking-wider font-semibold drop-shadow-2xl uppercase transition-delay-300 duration-300 
-          ease-in-out hover:text-orange-500 hover:border-b-2 hover:border-orange-500  text-slate-800 "
+              className="text-sm tracking-wider font-semibold drop-shadow-2xl capitalize duration-300 
+          ease-in-out hover:text-purple-600 hover:border-b-1 hover:border-purple-500  text-white "
             >
               Skills
             </Link>
             <Link
               href={"#project"}
-              className="text-sm tracking-wider font-semibold drop-shadow-2xl uppercase transition-delay-300 duration-300 
-          ease-in-out hover:text-orange-500 hover:border-b-2 hover:border-orange-500  text-slate-800 "
+              className="text-sm tracking-wider font-semibold drop-shadow-2xl capitalize duration-300 
+          ease-in-out hover:text-purple-600 hover:border-b-1 hover:border-purple-500  text-white "
             >
               Project
             </Link>
 
             <Link
               href={"#contact"}
-              className="block px-4 py-2 text-sm tracking-wider font-semibold drop-shadow-2xl capitalize hover:scale-105 transition-300 duration-300 ease-in-out  text-orange-500 hover:border-b-2 hover:bg-orange-500  hover:text-white  border-orange-500  border-2  shadow-xl hover:shadow-2xl rounded-full"
+              className="block px-4 py-2 text-sm tracking-wider font-semibold drop-shadow-2xl capitalize hover:scale-105 transition-300 duration-300 ease-in-out  text-purple-600 hover:border-b-1 hover:bg-orange-500  hover:text-white  border-purple-500  border-2  shadow-xl hover:shadow-2xl rounded-full"
             >
               contact
             </Link>
@@ -69,10 +68,10 @@ const NavBar = () => {
         <div className={nav ? "fixed w-[75%]  h-screen bg-[#e5e7e7] top-0 left-0 bottom-0 p-10 ease-in-out duration-200 overflow-y-auto": "fixed left-[-100%] bottom-0 p-10 top-0 ease-in duration-500 "}>
           <div>
             <div className="flex items-center justify-between w-full">
-              <div className="text-2xl font-serif drop-shadow-2xl font-extrabold  tracking-wide text-slate-800">
+              <div className="text-2xl font-serif drop-shadow-2xl font-extrabold  tracking-wide text-white">
                 Port<span className="text-orange-400 font-serif">folio</span>
               </div>
-              <div onClick={()=>{ console.log('text'); setNav(false)}} className="rounded-full shadow-lg  shadow-gray-500 p-3">
+              <div onClick={()=>{setNav(false)}} className="rounded-full shadow-lg  shadow-gray-500 p-3">
                 <AiOutlineClose />
               </div>
             </div>
@@ -84,39 +83,39 @@ const NavBar = () => {
           </div>
           <div className="py-4 flex flex-col">
           <div
-            className="flex flex-col w-full transition-delay-300 transition-transform
+            className="flex flex-ccapitalize transition-transform
           ease-in-out space-y-8"
           >
             <Link
               href={"/"}
-              className="block text-slate-800  hover:text-orange-500  text-sm tracking-wider font-semibold drop-shadow-2xl uppercase"
+              className="block text-white  hover:text-purple-600  text-sm tracking-wider font-semibold drop-shadow-2xl uppercase"
             >
               Home
             </Link>
 
             <Link
               href={"#about"}
-              className="block text-sm tracking-wider font-semibold drop-shadow-2xl uppercase hover:text-orange-500 text-slate-800 "
+              className="block text-sm tracking-wider font-semibold drop-shadow-2xl uppercase hover:text-purple-600 text-white "
             >
               About
             </Link>
 
             <Link
               href={"#skills"}
-              className="block text-sm tracking-wider font-semibold drop-shadow-2xl uppercase hover:text-orange-500   text-slate-800 "
+              className="block text-sm tracking-wider font-semibold drop-shadow-2xl uppercase hover:text-purple-600   text-white "
             >
               Skills
             </Link>
             <Link
               href={"#project"}
-              className="block text-sm tracking-wider font-semibold drop-shadow-2xl uppercase hover:text-orange-500  text-slate-800 "
+              className="block text-sm tracking-wider font-semibold drop-shadow-2xl uppercase hover:text-purple-600  text-white "
             >
               Project
             </Link>
 
             <Link
               href={"#contact"}
-              className="block text-sm tracking-wider font-semibold drop-shadow-2xl uppercase hover:text-orange-500  text-slate-800 "
+              className="block text-sm tracking-wider font-semibold drop-shadow-2xl uppercase hover:text-purple-600  text-white "
             >
               contact
             </Link>

@@ -7,24 +7,24 @@ const Home = () => {
   return (
     <div>
       <div
-        className="grid grid-cols-5 ease-in-out scale-105 duration-300 bg-gray-900 overflow-hidden"
+        className="grid grid-cols-5 ease-in-out scale-105 duration-300 overflow-hidden"
         style={{ padding: "4rem 8rem" }}
       >
         <div className="flex flex-col col-span-3 px-8 space-y-2">
-        <span className="text-white font-semibold text-sm bg-pink-700 px-4 py-1.5 rounded-full mr-auto drop-shadow-2xl">
-             Welcome to our portfoio
+        <span className="text-purple-500 hover:text-white font-semibold text-xs  border-2 hover:bg-purple-500 border-purple-600  px-4 py-1.5 rounded-full mr-auto drop-shadow-2xl">
+             Welcome to our portfolio
             </span>
           <span
-            className="font-extrabold text-white tracking-normal text-4xl"
+            className="font-bold text-white tracking-normal text-2xl"
           >
-            Hello, I am a 
-            <span className="font-extrabold tracking-normal text-pink-600 text-4xl"> Pratik Raut</span>
+            Hello, I am 
           </span>
+            <span className="font-extrabold tracking-normal text-purple-600 text-4xl"> A Pratik Raut</span>
          
-            <span className="text-pink-600  drop-shadow-2xl">
+            <span className="text-purple-900  text-sm font-semibold  drop-shadow-2xl">
               Frontend Web Developer
             </span>
-          <p className="text-sm leading-6 text-wide font-medium text-gray-400 mt-2">
+          <p className="text-sm leading-6 text-wide font-medium text-white  mt-2">
             As a frontend developer, my role is to create visually appealing and
             user-friendly interfaces for websites and applications. I use HTML,
             CSS, JavaScript anfd many javascript frameworks such as react
@@ -48,12 +48,8 @@ const Home = () => {
             </div>
           </div>
           <div className="flex items-center space-x-4 mr-auto">
-            <button className="my-5 font-bold text-sm text-white rounded-full shadow-md hover:shadow-2xl shadow-gradient-to-r  border-fuchsia-600 bg-gradient-to-r from-fuchsia-600 to-purple-600 py-2  ease-in-out transition-all duration-200 mr-auto px-6  font-mono hover:scale-105 ">
-              {" "}
-              Hire me
-            </button>
-            <button className="my-5 font-bold text-sm text-white rounded-full shadow-md hover:shadow-2xl shadow-gradient-to-r  border-fuchsia-600 bg-gradient-to-r from-fuchsia-600 to-purple-600 py-2  ease-in-out transition-all duration-200 mr-auto px-6  font-mono hover:scale-105 ">
-              {" "}
+           
+            <button className="my-5 font-semibold text-xs text-purple-600 hover:text-white rounded-2xl shadow-2xl shadow-gradient-to-r  border-purple-600 hover:bg-gradient-to-r hover:from-purple-600 hover:to-purple-600 py-2  ease-in-out transition-all duration-200 mr-auto px-6  hover:skew-6 border-2 hover:border-gray-200">
               Download CV
             </button>
           </div>

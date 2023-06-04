@@ -18,7 +18,7 @@ export default function RootLayout({
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css"  rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
       </Head>
-      <body className="h-[100vh] flex flex-col relative w-full overflow-hidden overflow-y-auto" >
+      <body className="h-[100vh] flex flex-col relative w-full overflow-hidden bg-gray-900 overflow-y-auto" >
       <NavBar/>
       {children}</body>
     </html>
