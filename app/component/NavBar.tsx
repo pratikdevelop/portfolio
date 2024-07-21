@@ -13,8 +13,8 @@ const NavBar = () => {
         className="fixed w-full bg-transparent px-8 py-3 "
       >
         <nav className="flex justify-between items-center max-w-screen-xl">
-          <div className="text-2xl font-serif drop-shadow-2xl font-extrabold  tracking-wide text-white">
-            Port<span className="text-purple-600 font-serif">Folio</span>
+          <div className="text-2xl drop-shadow-2xl font-extrabold  tracking-wide text-white">
+            Port<span className="text-purple-600">Folio</span>
           </div>
 
           <div
@@ -68,8 +68,8 @@ const NavBar = () => {
         <div className={nav ? "fixed w-[75%]  h-screen bg-[#e5e7e7] top-0 left-0 bottom-0 p-10 ease-in-out duration-200 overflow-y-auto": "fixed left-[-100%] bottom-0 p-10 top-0 ease-in duration-500 "}>
           <div>
             <div className="flex items-center justify-between w-full">
-              <div className="text-2xl font-serif drop-shadow-2xl font-extrabold  tracking-wide text-white">
-                Port<span className="text-orange-400 font-serif">folio</span>
+              <div className="text-2xl drop-shadow-2xl font-extrabold  tracking-wide text-white">
+                Port<span className="text-orange-400">folio</span>
               </div>
               <div onClick={()=>{setNav(false)}} className="rounded-full shadow-lg  shadow-gray-500 p-3">
                 <AiOutlineClose />

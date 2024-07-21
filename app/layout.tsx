@@ -15,12 +15,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css"  rel="stylesheet" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Jacquard+24&display=swap" rel="stylesheet"></link>
       </Head>
       <body className="h-[100vh] flex flex-col relative w-full overflow-hidden bg-gray-900 overflow-y-auto" >
-      <NavBar/>
-      {children}</body>
+        <NavBar />
+        {children}</body>
     </html>
   )
 }

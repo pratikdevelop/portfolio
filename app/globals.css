@@ -1,26 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-  @import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,500;1,400&family=Alkatra:wght@500;600&family=Merriweather&family=Montserrat:wght@400;500&family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;500&display=swap');
-*{
-  font-family: 'Alegreya Sans', sans-serif;
-  /* font-family: 'Alkatra', cursive;
-  font-family: 'Merriweather', serif;
-  font-family: 'Montserrat', sans-serif;
-  font-family: 'Roboto', sans-serif;
-  font-family: 'Roboto Condensed', sans-serif; */
-margin: 0;
-padding: 0;
-box-sizing: border-box;
+
+@import url('https://fonts.googleapis.com/css2?family=Kalnia:wght@400;500&family=Noto+Serif&family=Sevillana&display=swap');
+* {
+  font-family: "Sevillana", cursive;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 #about {
-  font-family:'Merriweather', serif !important;
   padding: 4rem 8rem;
 }
 
 .about-heading {
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
   font-size: 2rem;
   font-weight: 700;
 }
