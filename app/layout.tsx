@@ -14,11 +14,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link href="https://fonts.googleapis.com/css2?family=Jacquard+24&display=swap" rel="stylesheet"></link>
-      </Head>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@600&family=Kreon:wght@600&family=Libertinus+Sans:ital,wght@0,400;0,700;1,400&family=Rowdies:wght@300;400&display=swap" rel="stylesheet"></link>
+      </head>
+   
       <body className="h-[100vh] flex flex-col relative w-full overflow-hidden bg-gray-900 overflow-y-auto" >
         <NavBar />
         {children}</body>

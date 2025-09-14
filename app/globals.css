@@ -4,9 +4,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Kalnia:wght@400;500&family=Noto+Serif&family=Sevillana&display=swap');
 * {
-  font-family: "Sevillana", cursive;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Kreon", serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 600 !important;
+  font-style: normal !important;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
