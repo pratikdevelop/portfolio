@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pratik Raut - Full-Stack Software Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --kaggle: #20beff;
+            --dev: #0a0a0a;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .resume-container {
+            background: white;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .resume-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+        }
+        
+        .header-bg {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-bg::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .header-bg::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+        
+        .skill-tag {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .skill-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .skill-tag:hover::before {
+            left: 100%;
+        }
+        
+        .skill-tag:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .project-card {
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border-top: 4px solid transparent;
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(139, 92, 246, 0.03) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .project-card:hover::before {
+            opacity: 1;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 1.5rem;
+            bottom: -1.5rem;
+            width: 2px;
+            background: #e5e7eb;
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-image: linear-gradient(
+                -45deg, 
+                rgba(255, 255, 255, 0.2) 25%, 
+                transparent 25%, 
+                transparent 50%, 
+                rgba(255, 255, 255, 0.2) 50%, 
+                rgba(255, 255, 255, 0.2) 75%, 
+                transparent 75%, 
+                transparent
+            );
+            background-size: 20px 20px;
+            animation: move 1s linear infinite;
+        }
+        
+        @keyframes move {
+            0% { background-position: 0 0; }
+            100% { background-position: 20px 0; }
+        }
+        
+        .contact-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .contact-icon:hover {
+            transform: scale(1.2);
+            color: var(--primary);
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid var(--primary);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary) }
+        }
+        
+        .flip-card {
+            perspective: 1000px;
+        }
+        
+        .flip-card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-card-front, .flip-card-back {
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .flip-card-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+        }
+        
+        .glow {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float-particle 15s infinite linear;
+        }
+        
+        @keyframes float-particle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .kaggle-color {
+            color: var(--kaggle);
+        }
+        
+        .dev-color {
+            color: var(--dev);
+        }
+        
+        .social-badge {
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding: 8px 12px;
+        }
+        
+        .social-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .kaggle-badge:hover {
+            background-color: rgba(32, 190, 255, 0.1);
+        }
+        
+        .dev-badge:hover {
+            background-color: rgba(10, 10, 10, 0.1);
+        }
+        
+        .platform-stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 md:p-8">
+    <div class="resume-container w-full max-w-5xl rounded-xl overflow-hidden">
+        <!-- Header Section -->
+        <header class="header-bg text-white p-8 relative">
+            <div class="particles" id="particles"></div>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center relative z-10">
+                <div class="mb-6 md:mb-0">
+                    <h1 class="text-4xl font-bold mb-2 typewriter">Pratik Raut</h1>
+                    <h2 class="text-xl font-medium mb-4">Full-Stack Software Engineer</h2>
+                    <div class="flex flex-wrap gap-4 mt-4">
+                        <div class="flex items-center contact-icon">
+                            <i class="fas fa-envelope mr-2"></i>
+                            <span>pratikraut.9115@gmail.com</span>
+                        </div>
+                        <div class="flex items-center contact-icon">
+                            <i class="fas fa-phone mr-2"></i>
+                            <span>+91-9111502449</span>
+                        </div>
+                        <div class="flex items-center contact-icon">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span>Ujjain, Madhya Pradesh</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flip-card w-32 h-32">
+                    <div class="flip-card-inner w-full h-full">
+                        <div class="flip-card-front w-full h-full">
+                            <img src="https://ui-avatars.com/api/?name=Pratik+Raut&size=128&background=0D8ABC&color=fff&bold=true" 
+                                 alt="Profile" class="rounded-full border-4 border-white shadow-lg glow w-full h-full object-cover">
+                        </div>
+                        <div class="flip-card-back w-full h-full">
+                            <p class="text-center font-semibold">Hire Me!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Social Links -->
+            <div class="flex flex-wrap gap-4 mt-6 relative z-10">
+                <a href="https://bitbucket.org/" class="social-badge flex items-center hover:text-blue-200 transition-all duration-300">
+                    <i class="fab fa-bitbucket mr-2 text-xl"></i>
+                    <span>Bitbucket</span>
+                </a>
+                <a href="https://github.com/" class="social-badge flex items-center hover:text-blue-200 transition-all duration-300">
+                    <i class="fab fa-github mr-2 text-xl"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://in.linkedin.com/" class="social-badge flex items-center hover:text-blue-200 transition-all duration-300">
+                    <i class="fab fa-linkedin mr-2 text-xl"></i>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://hackerrank.com/" class="social-badge flex items-center hover:text-blue-200 transition-all duration-300">
+                    <i class="fab fa-hackerrank mr-2 text-xl"></i>
+                    <span>HackerRank</span>
+                </a>
+                <!-- New Kaggle Profile -->
+                <a href="https://kaggle.com/" class="social-badge kaggle-badge flex items-center transition-all duration-300">
+                    <i class="fab fa-kaggle mr-2 text-xl kaggle-color"></i>
+                    <span class="kaggle-color">Kaggle</span>
+                </a>
+                <!-- New Dev Community Profile -->
+                <a href="https://dev.to/pratik_12b3f8bf3b50e48bae" class="social-badge dev-badge flex items-center transition-all duration-300">
+                    <i class="fab fa-dev mr-2 text-xl dev-color"></i>
+                    <span class="dev-color">Dev Community</span>
+                </a>
+            </div>
+            
+            <!-- Floating elements -->
+            <div class="absolute bottom-4 right-4 floating-element">
+                <div class="bg-white bg-opacity-20 p-3 rounded-full">
+                    <i class="fas fa-code text-white text-xl"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="p-8 bg-white">
+            <!-- Professional Summary -->
+            <section class="mb-12 fade-in">
+                <h3 class="section-title text-2xl font-bold">Professional Summary</h3>
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border-l-4 border-blue-500 shadow-sm">
+                    <p class="text-gray-700 leading-relaxed">
+                        Dynamic Full-Stack Developer with 3+ years of hands-on experience, including 1-year internship and 2+ years full-time at Profilics Systems Pvt. Ltd. Expertise in crafting scalable user-centric web applications using React, Angular, Node.js, Django, and emerging stacks like Golang (Gin) and Python (FastAPI). Proficient in RESTful/GraphQL APIs, database management (MongoDB, MySQL, PostgreSQL), and cloud deployments (AWS, Heroku, Firebase). Adept at DevOps (Docker, Jenkins) for CI/CD pipelines, testing (Jest, Mocha), and AI/ML integration (TensorFlow, Reinforcement Learning) to drive performance optimizations. Passionate about delivering innovative, high-impact solutions that boost user engagement and operational efficiency by up to 40%.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Professional Experience & Education -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Professional Experience -->
+                <section class="fade-in">
+                    <h3 class="section-title text-2xl font-bold mb-6">Professional Experience</h3>
+                    <div class="space-y-6">
+                        <div class="timeline-item bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:glow transition-all duration-300">
+                            <div class="flex flex-col md:flex-row justify-between mb-3">
+                                <h4 class="text-lg font-semibold">Full-Stack Developer</h4>
+                                <span class="text-blue-600 font-medium bg-blue-50 px-3 py-1 rounded-full text-sm">January 2022 – Present</span>
+                            </div>
+                            <p class="text-gray-600 font-medium mb-4">Profilics Systems Pvt. Ltd. | Ujjain, India</p>
+                            <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                                <li>Engineered full-stack applications using React, Angular, Node.js, Django, and CakePHP</li>
+                                <li>Managed diverse databases and orchestrated deployments on AWS, Heroku, and Firebase</li>
+                                <li>Implemented DevOps workflows with Docker and Jenkins for automated CI/CD pipelines</li>
+                                <li>Leveraged AI/ML models to enhance app features and improve prediction accuracy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Education -->
+                <section class="fade-in">
+                    <h3 class="section-title text-2xl font-bold mb-6">Education</h3>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:glow transition-all duration-300">
+                        <div class="flex flex-col md:flex-row justify-between mb-3">
+                            <h4 class="text-lg font-semibold">Bachelor of Science in Computer Science</h4>
+                            <span class="text-blue-600 font-medium bg-blue-50 px-3 py-1 rounded-full text-sm">June 2019 – June 2023</span>
+                        </div>
+                        <p class="text-gray-600 font-medium mb-2">Shri Guru Sandipani Institute of Technology and Science</p>
+                        <p class="text-gray-700">Ujjain, India</p>
+                        <div class="mt-4">
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-600">CGPA</span>
+                                <span class="text-blue-600 font-medium">7.6/10</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 76%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Technical Skills -->
+            <section class="mb-12 fade-in">
+                <h3 class="section-title text-2xl font-bold mb-6">Technical Skills</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-br from-white to-blue-50 p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-semibold text-blue-600 mb-4 text-lg flex items-center">
+                            <i class="fas fa-laptop-code mr-2"></i> Frontend & Backend
+                        </h4>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="skill-tag bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-medium">Angular</span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-medium">React</span>
+                            <span class="skill-tag bg-green-100 text-green-800 px-4 py-2 rounded-full font-medium">Node.js</span>
+                            <span class="skill-tag bg-green-100 text-green-800 px-4 py-2 rounded-full font-medium">Django</span>
+                            <span class="skill-tag bg-purple-100 text-purple-800 px-4 py-2 rounded-full font-medium">Golang</span>
+                            <span class="skill-tag bg-purple-100 text-purple-800 px-4 py-2 rounded-full font-medium">.NET Core</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-white to-indigo-50 p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-semibold text-indigo-600 mb-4 text-lg flex items-center">
+                            <i class="fas fa-database mr-2"></i> Databases & Tools
+                        </h4>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="skill-tag bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium">MongoDB</span>
+                            <span class="skill-tag bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium">MySQL</span>
+                            <span class="skill-tag bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium">PostgreSQL</span>
+                            <span class="skill-tag bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full font-medium">Docker</span>
+                            <span class="skill-tag bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full font-medium">Jenkins</span>
+                            <span class="skill-tag bg-red-100 text-red-800 px-4 py-2 rounded-full font-medium">TensorFlow</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Data Science & Community Profiles -->
+            <section class="mb-12 fade-in">
+                <h3 class="section-title text-2xl font-bold mb-6">Data Science & Community Profiles</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Kaggle Profile -->
+                    <div class="bg-gradient-to-br from-white to-cyan-50 p-6 rounded-xl shadow-sm border border-gray-100 hover:glow transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <i class="fab fa-kaggle text-3xl kaggle-color mr-3"></i>
+                            <div>
+                                <h4 class="text-xl font-bold kaggle-color">Kaggle</h4>
+                                <p class="text-gray-600">Data Science & Machine Learning</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 mb-4">
+                            Active participant in data science competitions and contributor to machine learning projects.
+                        </p>
+                        <div class="platform-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-medal kaggle-color"></i>
+                                <span class="font-medium">Competitions: 5+</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-code-branch kaggle-color"></i>
+                                <span class="font-medium">Notebooks: 12+</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-trophy kaggle-color"></i>
+                                <span class="font-medium">Expert Level</span>
+                            </div>
+                        </div>
+                        <a href="https://www.kaggle.com/pratik222" class="mt-4 inline-flex items-center text-cyan-600 font-medium hover:text-cyan-700 transition-colors">
+                            View Profile <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Dev Community Profile -->
+                    <div class="bg-gradient-to-br from-white to-gray-100 p-6 rounded-xl shadow-sm border border-gray-100 hover:glow transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <i class="fab fa-dev text-3xl dev-color mr-3"></i>
+                            <div>
+                                <h4 class="text-xl font-bold dev-color">Dev Community</h4>
+                                <p class="text-gray-600">Technical Writing & Community</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 mb-4">
+                            Sharing knowledge through technical articles, tutorials, and engaging with the developer community.
+                        </p>
+                        <div class="platform-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-pencil-alt dev-color"></i>
+                                <span class="font-medium">Articles: 15+</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-heart dev-color"></i>
+                                <span class="font-medium">Reactions: 500+</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-comments dev-color"></i>
+                                <span class="font-medium">Followers: 200+</span>
+                            </div>
+                        </div>
+                        <a href="https://dev.to/" class="mt-4 inline-flex items-center text-gray-800 font-medium hover:text-black transition-colors">
+                            View Profile <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Key Projects -->
+            <section class="mb-12 fade-in">
+                <h3 class="section-title text-2xl font-bold mb-6">Key Projects</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Project 1 -->
+                    <div class="project-card bg-white p-6 rounded-xl shadow-sm border border-gray-100" style="border-top-color: #3b82f6;">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-lg font-semibold">Real-Time Chat Application</h4>
+                            <span class="text-blue-600 font-medium bg-blue-50 px-3 py-1 rounded-full text-sm">2022</span>
+                        </div>
+                        <p class="text-gray-600 mb-3"><span class="font-medium">Tech:</span> React & Node.js</p>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2 text-sm">
+                            <li>Built interactive chat app with React/Redux frontend</li>
+                            <li>Real-time messaging supporting 1,000+ concurrent users</li>
+                            <li>Enhanced user experiences, boosting interaction by 35%</li>
+                        </ul>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="project-card bg-white p-6 rounded-xl shadow-sm border border-gray-100" style="border-top-color: #10b981;">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-lg font-semibold">Endorsement Platform</h4>
+                            <span class="text-green-600 font-medium bg-green-50 px-3 py-1 rounded-full text-sm">2023</span>
+                        </div>
+                        <p class="text-gray-600 mb-3"><span class="font-medium">Tech:</span> React & Node.js/Express</p>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2 text-sm">
+                            <li>Led full-stack social tool handling 10,000+ daily interactions</li>
+                            <li>Designed MongoDB schemas and GraphQL APIs</li>
+                            <li>Improved retention by 15% with intuitive social features</li>
+                        </ul>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="project-card bg-white p-6 rounded-xl shadow-sm border border-gray-100" style="border-top-color: #8b5cf6;">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-lg font-semibold">E-Commerce Catalog</h4>
+                            <span class="text-purple-600 font-medium bg-purple-50 px-3 py-1 rounded-full text-sm">2023-2024</span>
+                        </div>
+                        <p class="text-gray-600 mb-3"><span class="font-medium">Tech:</span> Angular & .NET Core</p>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2 text-sm">
+                            <li>Created dynamic catalog for 5,000+ products</li>
+                            <li>Secure backend with RESTful APIs and Stripe integration</li>
+                            <li>Optimized MySQL queries for 40% faster loads</li>
+                        </ul>
+                    </div>
+
+                    <!-- Project 4 -->
+                    <div class="project-card bg-white p-6 rounded-xl shadow-sm border border-gray-100" style="border-top-color: #f59e0b;">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-lg font-semibold">Dealership CRM (DP360)</h4>
+                            <span class="text-pink-600 font-medium bg-pink-50 px-3 py-1 rounded-full text-sm">2024-Present</span>
+
+                            <!-- <span class="text-yellow-600 font-medium bg-yellow-50 px-3 py-1 rounded-full text-sm">2024</span> -->
+                        </div>
+                        <p class="text-gray-600 mb-3"><span class="font-medium">Tech:</span> Angular & CakePHP</p>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2 text-sm">
+                            <li>Built scalable CRM for 1,000+ daily interactions</li>
+                            <li>Containerized with Docker/Nginx for 99.8% uptime</li>
+                            <li>Reduced deployment time by 20% using CI/CD pipelines</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-6">
+                    <button id="showMoreBtn" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        Show More Projects
+                    </button>
+                </div>
+                
+                <!-- Additional Projects (Hidden by Default) -->
+                <div id="moreProjects" class="hidden mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Project 5 -->
+                    <div class="project-card bg-white p-6 rounded-xl shadow-sm border border-gray-100" style="border-top-color: #ec4899;">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-lg font-semibold">Next.js Blog Platform</h4>
+                            <span class="text-yellow-600 font-medium bg-yellow-50 px-3 py-1 rounded-full text-sm">2023</span>
+                        </div>
+                        <p class="text-gray-600 mb-3"><span class="font-medium">Tech:</span> Next.js & Django/Python</p>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2 text-sm">
+                            <li>SEO-optimized blog improving rankings by 40%</li>
+                            <li>Integrated TensorFlow AI for personalized suggestions</li>
+                            <li>Deployed on AWS/Docker for 99.95% uptime</li>
+                        </ul>
+                    </div>
+
+                    <!-- Project 6 -->
+                    <div class="project-card bg-white p-6 rounded-xl shadow-sm border border-gray-100" style="border-top-color: #ef4444;">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-lg font-semibold">AI Wellness Coach</h4>
+                            <span class="text-red-600 font-medium bg-red-50 px-3 py-1 rounded-full text-sm">2024</span>
+                        </div>
+                        <p class="text-gray-600 mb-3"><span class="font-medium">Tech:</span> Flask/Python & MongoDB</p>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2 text-sm">
+                            <li>Architected modular wellness app with Flask APIs</li>
+                            <li>Added TensorFlow Q-Learning model for accurate recommendations</li>
+                            <li>Secured MongoDB with JWT/REST for 500+ daily users</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Declaration -->
+            <section class="fade-in">
+                <h3 class="section-title text-2xl font-bold mb-6">Declaration</h3>
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border-l-4 border-blue-500 shadow-sm">
+                    <p class="text-gray-700 mb-6">
+                        I hereby declare that the information provided above is true and correct to the best of my knowledge and belief.
+                    </p>
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <div>
+                            <p class="font-semibold text-lg">Pratik Raut</p>
+                            <p class="text-gray-600">October 2025</p>
+                        </div>
+                        <div class="mt-4 md:mt-0">
+                            <div class="h-16 w-48 border-t border-gray-400 pt-2 text-center">
+                                <p class="text-sm text-gray-600">Signature</p>
+                                <p class="text-gray-600">Pratik</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer
+        <footer class="bg-gray-800 text-white py-6 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="#" class="contact-icon text-white hover:text-blue-300">
+                    <i class="fab fa-github text-xl"></i>
+                </a>
+                <a href="#" class="contact-icon text-white hover:text-blue-300">
+                    <i class="fab fa-linkedin text-xl"></i>
+                </a>
+                <a href="#" class="contact-icon text-white hover:text-blue-300">
+                    <i class="fab fa-kaggle text-xl"></i>
+                </a>
+                <a href="#" class="contact-icon text-white hover:text-blue-300">
+                    <i class="fab fa-dev text-xl"></i>
+                </a>
+                <a href="#" class="contact-icon text-white hover:text-blue-300">
+                    <i class="fas fa-envelope text-xl"></i>
+                </a>
+            </div>
+            <p class="text-sm">© 2025 Pratik Raut. All rights reserved.</p>
+        </footer> -->
+    </div>
+
+    <script>
+        window.print()
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 15;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 3 and 8px
+                const size = Math.random() * 5 + 3;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                
+                // Random animation delay and duration
+                const delay = Math.random() * 15;
+                const duration = Math.random() * 10 + 15;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Fade in elements on scroll
+        function fadeInOnScroll() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+        
+        // Show more projects
+        document.getElementById('showMoreBtn').addEventListener('click', function() {
+            const moreProjects = document.getElementById('moreProjects');
+            const button = document.getElementById('showMoreBtn');
+            
+            if (moreProjects.classList.contains('hidden')) {
+                moreProjects.classList.remove('hidden');
+                button.textContent = 'Show Less Projects';
+                // Animate the appearance of additional projects
+                gsap.fromTo(moreProjects, 
+                    { opacity: 0, y: 20 }, 
+                    { opacity: 1, y: 0, duration: 0.5 }
+                );
+            } else {
+                moreProjects.classList.add('hidden');
+                button.textContent = 'Show More Projects';
+            }
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            fadeInOnScroll();
+            
+            // Add scroll event listener
+            window.addEventListener('scroll', fadeInOnScroll);
+            
+            // Animate skill tags on hover
+            const skillTags = document.querySelectorAll('.skill-tag');
+            skillTags.forEach(tag => {
+                tag.addEventListener('mouseenter', function() {
+                    gsap.to(this, { scale: 1.05, duration: 0.3 });
+                });
+                tag.addEventListener('mouseleave', function() {
+                    gsap.to(this, { scale: 1, duration: 0.3 });
+                });
+            });
+            
+            // Animate project cards on hover
+            const projectCards = document.querySelectorAll('.project-card');
+            projectCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    gsap.to(this, { y: -10, duration: 0.3 });
+                });
+                card.addEventListener('mouseleave', function() {
+                    gsap.to(this, { y: 0, duration: 0.3 });
+                });
+            });
+            
+            // Animate platform cards on hover
+            const platformCards = document.querySelectorAll('.social-badge');
+            platformCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    gsap.to(this, { y: -3, duration: 0.3 });
+                });
+                card.addEventListener('mouseleave', function() {
+                    gsap.to(this, { y: 0, duration: 0.3 });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
