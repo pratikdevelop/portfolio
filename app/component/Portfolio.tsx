@@ -25,7 +25,7 @@ const Portfolio = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (sectionId) => {
+  const scrollToSection = (sectionId: any) => {
     const section = document.getElementById(sectionId);
     if (section) {
       window.scrollTo({
@@ -652,14 +652,14 @@ const ContactSection = () => {
     message: ""
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { name: any; value: any; }; }) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     console.log(formData);
     alert("Thank you for your message! I'll get back to you soon.");
