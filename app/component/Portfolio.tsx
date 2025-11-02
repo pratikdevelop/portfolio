@@ -5,6 +5,7 @@ import { AiOutlineClose, AiOutlineMail, AiOutlineMenu } from "react-icons/ai";
 import { FaGithub, FaLinkedinIn, FaKaggle, FaDev, FaBitbucket, FaHackerrank } from 'react-icons/fa';
 import { BsFillFilePersonFill, BsDownload } from 'react-icons/bs';
 import Image from "next/image";
+import emailjs from '@emailjs/browser';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState("home");
@@ -40,7 +41,7 @@ const Portfolio = () => {
 
   const handleDownloadPDF = () => {
     const link = document.createElement('a');
-    link.href = '/Pratik-Raut-FlowCV-Resume-20251102.pdf';
+    link.href = '/Pratik-Raut-Resume.pdf';
     link.download = 'Pratik-Raut-Resume.pdf';
     document.body.appendChild(link);
     link.click();
@@ -684,23 +685,63 @@ const ExperienceSection = () => {
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: ""
+    name: '',
+    email: '',
+    message: '',
   });
+  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [feedbackType, setFeedbackType] = useState(''); // 'success' or 'error'
 
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
-    alert("Thank you for your message! I'll get back to you soon.");
-    setFormData({ name: "", email: "", message: "" });
+
+    if (!formData.name || !formData.email || !formData.message) {
+      setFeedbackMessage('Please fill in all fields.');
+      setFeedbackType('error');
+      return;
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(formData.email)) {
+      setFeedbackMessage('Please enter a valid email address.');
+      setFeedbackType('error');
+      return;
+    }
+
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      setFeedbackMessage('EmailJS environment variables are not set.');
+      setFeedbackType('error');
+      return;
+    }
+
+    emailjs.send(serviceId, templateId, formData, publicKey)
+      .then((result) => {
+        setFeedbackMessage('Message Sent Successfully!');
+        setFeedbackType('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => {
+          setFeedbackMessage('');
+          setFeedbackType('');
+        }, 5000);
+      }, (error) => {
+        setFeedbackMessage('Failed to send message: ' + error.text);
+        setFeedbackType('error');
+        setTimeout(() => {
+          setFeedbackMessage('');
+          setFeedbackType('');
+        }, 5000);
+      });
   };
 
   return (
@@ -833,6 +874,11 @@ const ContactSection = () => {
                 Send Message
               </button>
             </form>
+            {feedbackMessage && (
+              <p className={`text-center mt-4 ${feedbackType === 'success' ? 'text-green-500' : 'text-red-500'}`}>
+                {feedbackMessage}
+              </p>
+            )}
           </div>
         </div>
       </div>

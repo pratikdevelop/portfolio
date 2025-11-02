@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 
+NEXT_PUBLIC_EMAILJS_SERVICE_ID=service_kcjc1z9
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=template_skl63m7
+NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=rsVn6HVhOpBzFw-Ct */
 @import url('https://fonts.googleapis.com/css2?family=Kalnia:wght@400;500&family=Noto+Serif&family=Sevillana&display=swap');
 * {
     font-family: "Kreon", serif !important;
