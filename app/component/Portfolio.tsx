@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { AiOutlineClose, AiOutlineMail, AiOutlineMenu } from "react-icons/ai";
 import { FaGithub, FaLinkedinIn, FaKaggle, FaDev, FaBitbucket, FaHackerrank } from 'react-icons/fa';
-import { BsFillFilePersonFill } from 'react-icons/bs';
+import { BsFillFilePersonFill, BsDownload } from 'react-icons/bs';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState("home");
@@ -37,106 +37,25 @@ const Portfolio = () => {
     }
   };
 
+  const handleDownloadPDF = () => {
+    // Create a temporary link element
+    const link = document.createElement('a');
+    link.href = '/Pratik-Raut-FlowCV-Resume-20251102.pdf';
+    link.download = 'Pratik-Raut-Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
-      {/* Your existing header code remains the same */}
-      {/* <header className="fixed w-full bg-transparent px-8 py-3 z-50">
-        <nav className="flex justify-between items-center max-w-screen-xl">
-          <div className="text-2xl drop-shadow-2xl font-extrabold tracking-wide text-white">
-            Port<span className="text-purple-600">Folio</span>
-          </div>
-
-          <div className="hidden justify-around items-center space-x-8 lg:flex">
-            <Link href={"#home"} className="text-white hover:text-purple-600 text-sm tracking-wider font-semibold">
-              Home
-            </Link>
-            <Link href={"#about"} className="text-white hover:text-purple-600 text-sm tracking-wider font-semibold">
-              About
-            </Link>
-            <Link href={"#skills"} className="text-white hover:text-purple-600 text-sm tracking-wider font-semibold">
-              Skills
-            </Link>
-            <Link href={"#projects"} className="text-white hover:text-purple-600 text-sm tracking-wider font-semibold">
-              Projects
-            </Link>
-            <Link href={"#experience"} className="text-white hover:text-purple-600 text-sm tracking-wider font-semibold">
-              Experience
-            </Link>
-            <Link href={"#contact"} className="px-4 py-2 text-sm font-semibold text-purple-600 border-2 border-purple-500 rounded-full hover:bg-purple-600 hover:text-white transition-all">
-              Contact
-            </Link>
-          </div>
-
-          <button onClick={() => setNav(true)} className="flex items-center sm:hidden lg:order-1 cursor-pointer">
-            <AiOutlineMenu size={25} />
-          </button>
-        </nav>
-      </header> */}
-
-      {/* Mobile Menu */}
-      <div className={nav ? "fixed h-screen top-0 left-0 w-full sm:hidden bg-black/70 z-50" : "hidden"}>
-        <div className={nav ? "fixed w-[75%] h-screen bg-[#1a1a1a] top-0 left-0 bottom-0 p-10 ease-in-out duration-200 overflow-y-auto" : "fixed left-[-100%] bottom-0 p-10 top-0 ease-in duration-500"}>
-          <div>
-            <div className="flex items-center justify-between w-full">
-              <div className="text-2xl font-extrabold tracking-wide text-white">
-                Port<span className="text-purple-600">folio</span>
-              </div>
-              <div onClick={() => setNav(false)} className="rounded-full shadow-lg shadow-gray-500 p-3 cursor-pointer">
-                <AiOutlineClose className="text-white" />
-              </div>
-            </div>
-            <div className="border-b border-gray-500 my-4">
-              <p className="w-[80%] py-4 text-gray-300">Let's build something legendary together</p>
-            </div>
-          </div>
-          <div className="py-4 flex flex-col space-y-6">
-            {["home", "about", "skills", "projects", "experience", "contact"].map((item) => (
-              <button
-                key={item}
-                onClick={() => {
-                  scrollToSection(item);
-                  setNav(false);
-                }}
-                className="text-white hover:text-purple-600 text-sm tracking-wider font-semibold uppercase text-left"
-              >
-                {item.charAt(0).toUpperCase() + item.slice(1)}
-              </button>
-            ))}
-          </div>
-          <div className="pt-20">
-            <p className="uppercase tracking-widest text-purple-500">Let's connect</p>
-            <div className="flex items-center w-full pt-6 space-x-4">
-              {[
-                { icon: <FaLinkedinIn />, link: "https://linkedin.com/in/" },
-                { icon: <FaGithub />, link: "https://github.com/" },
-                { icon: <FaKaggle />, link: "https://kaggle.com/" },
-                { icon: <FaDev />, link: "https://dev.to/" },
-                { icon: <FaBitbucket />, link: "https://bitbucket.org/" },
-                { icon: <FaHackerrank />, link: "https://hackerrank.com/" },
-                { icon: <AiOutlineMail />, link: "mailto:pratikraut.9115@gmail.com" }
-              ].map((social, index) => (
-                <a
-                  key={index}
-                  href={social.link}
-                  className="rounded-full shadow-xl shadow-gray-600 p-3 cursor-pointer hover:scale-105 ease-in duration-300 text-white hover:text-purple-400"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {social.icon}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Navigation */}
       <nav className="fixed w-full bg-black bg-opacity-90 z-40 shadow-lg">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <div className="text-2xl font-bold text-purple-500">Pratik Raut</div>
           
           {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-4">
+          <div className="hidden md:flex space-x-4 items-center">
             {["home", "about", "skills", "projects", "experience", "contact"].map((item) => (
               <button
                 key={item}
@@ -150,21 +69,36 @@ const Portfolio = () => {
                 {item.charAt(0).toUpperCase() + item.slice(1)}
               </button>
             ))}
+            <button
+              onClick={handleDownloadPDF}
+              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2"
+            >
+              <BsDownload className="w-4 h-4" />
+              <span>Download CV</span>
+            </button>
           </div>
           
           {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-white focus:outline-none"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {isMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={handleDownloadPDF}
+              className="px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2 md:hidden"
+            >
+              <BsDownload className="w-4 h-4" />
+            </button>
+            <button
+              className="md:hidden text-white focus:outline-none"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {isMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
         
         {/* Mobile Navigation */}
@@ -184,13 +118,20 @@ const Portfolio = () => {
                   {item.charAt(0).toUpperCase() + item.slice(1)}
                 </button>
               ))}
+              <button
+                onClick={handleDownloadPDF}
+                className="px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2 justify-center"
+              >
+                <BsDownload className="w-4 h-4" />
+                <span>Download CV</span>
+              </button>
             </div>
           </div>
         )}
       </nav>
 
       {/* Home Section */}
-      <HomeSection />
+      <HomeSection onDownloadCV={handleDownloadPDF} />
 
       {/* About Section */}
       <AboutSection />
@@ -213,20 +154,20 @@ const Portfolio = () => {
   );
 };
 
-const HomeSection = () => {
+const HomeSection = ({ onDownloadCV }: { onDownloadCV: () => void }) => {
   return (
     <section id="home" className="min-h-screen flex items-center justify-center pt-20 pb-16 px-4">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div className="space-y-6 animate-fade-in">
           <div className="text-2xl text-purple-400">Hello, I'm</div>
           <h1 className="text-5xl md:text-6xl font-bold text-white">Pratik Raut</h1>
-          <h2 className="text-3xl md:text-4xl text-purple-500">Full-Stack Software Engineer</h2>
+          <h2 className="text-3xl md:text-4xl text-purple-500">Full-Stack Software Engineer & Gen AI Developer</h2>
           <p className="text-gray-300 max-w-md leading-relaxed">
-            Dynamic Full-Stack Developer with 3+ years of hands-on experience crafting scalable 
-            user-centric web applications using modern technologies like React, Angular, Node.js, 
-            and emerging stacks.
+            Dynamic Full-Stack Developer with 3+ years of professional experience crafting scalable 
+            user-centric web applications using modern technologies. Specialized in AI-driven features 
+            and performance optimization.
           </p>
-          <div className="flex space-x-4 pt-4">
+          <div className="flex space-x-4 pt-4 flex-wrap gap-3">
             <button 
               onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
               className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors shadow-lg"
@@ -239,10 +180,17 @@ const HomeSection = () => {
             >
               Contact Me
             </button>
+            <button 
+              onClick={onDownloadCV}
+              className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2"
+            >
+              <BsDownload className="w-4 h-4" />
+              <span>Download CV</span>
+            </button>
           </div>
           
           {/* Social Links */}
-          <div className="flex space-x-4 pt-6">
+          <div className="flex space-x-4 pt-6 flex-wrap gap-3">
             {[
               { icon: <FaGithub />, link: "https://github.com/", label: "GitHub" },
               { icon: <FaLinkedinIn />, link: "https://linkedin.com/in/", label: "LinkedIn" },
@@ -289,27 +237,32 @@ const AboutSection = () => {
           <div className="space-y-6">
             <h3 className="text-2xl text-purple-400">Professional Summary</h3>
             <p className="text-gray-300 leading-relaxed">
-              Dynamic Full-Stack Developer with 3+ years of hands-on experience, including 1-year internship 
-              and 2+ years full-time at Profilics Systems Pvt. Ltd. Expertise in crafting scalable user-centric 
-              web applications using React, Angular, Node.js, Django, and emerging stacks like Golang (Gin) 
-              and Python (FastAPI).
+              Full-Stack Software Engineer with 3+ years of professional experience, including a 1-year internship 
+              and over 2 years of full-time development at Profilics Systems Pvt. Ltd. Designed and deployed 
+              end-to-end web applications using React, Angular, Node.js, Django, and CakePHP.
             </p>
             <p className="text-gray-300 leading-relaxed">
-              Proficient in RESTful/GraphQL APIs, database management (MongoDB, MySQL, PostgreSQL), and cloud 
-              deployments (AWS, Heroku, Firebase). Adept at DevOps (Docker, Jenkins) for CI/CD pipelines, 
-              testing (Jest, Mocha), and AI/ML integration (TensorFlow, Reinforcement Learning) to drive 
-              performance optimizations.
+              Integrated <strong>AI-driven features</strong> and automation workflows to enhance scalability, 
+              efficiency, and performance. Managed <strong>RESTful/GraphQL APIs</strong> and optimized database 
+              operations across MongoDB, MySQL, and PostgreSQL.
             </p>
             <p className="text-gray-300 leading-relaxed">
-              Passionate about delivering innovative, high-impact solutions that boost user engagement and 
-              operational efficiency by up to 40%.
+              Implemented <strong>CI/CD pipelines</strong> with Docker and Jenkins, ensuring smooth, secure, 
+              and reliable deployments. Collaborated cross-functionally to deliver high-performance, 
+              user-focused solutions aligned with business goals.
             </p>
-            <div className="pt-4">
+            <div className="pt-4 flex space-x-4">
               <a
                 href="#contact"
                 className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors inline-block"
               >
                 Get In Touch
+              </a>
+              <a
+                href="#projects"
+                className="px-6 py-3 border border-purple-600 text-purple-400 rounded-lg hover:bg-purple-900 transition-colors inline-block"
+              >
+                View Projects
               </a>
             </div>
           </div>
@@ -324,24 +277,46 @@ const AboutSection = () => {
                     <p className="text-white">Pratik Raut</p>
                   </div>
                   <div className="flex justify-between border-b border-gray-700 pb-2">
+                    <span className="text-gray-400">Date of Birth:</span>
+                    <p className="text-white">April 6, 2001</p>
+                  </div>
+                  <div className="flex justify-between border-b border-gray-700 pb-2">
                     <span className="text-gray-400">Location:</span>
-                    <p className="text-white">Ujjain, Madhya Pradesh</p>
+                    <p className="text-white">Ujjain, Madhya Pradesh, India</p>
                   </div>
                   <div className="flex justify-between border-b border-gray-700 pb-2">
                     <span className="text-gray-400">Email:</span>
-                    <p className="text-white">pratikraut.9115@gmail.com</p>
+                    <a href="mailto:pratik.raut9115@gmail.com" className="text-white hover:text-purple-400">pratik.raut9115@gmail.com</a>
                   </div>
                   <div className="flex justify-between border-b border-gray-700 pb-2">
                     <span className="text-gray-400">Phone:</span>
-                    <p className="text-white">+91-9111502449</p>
-                  </div>
-                  <div className="flex justify-between border-b border-gray-700 pb-2">
-                    <span className="text-gray-400">Date of Birth:</span>
-                    <p className="text-white">April 06, 2001</p>
+                    <a href="tel:+919111502449" className="text-white hover:text-purple-400">+91-9111502449</a>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Languages:</span>
-                    <p className="text-white">English, Hindi</p>
+                    <span className="text-gray-400">Experience:</span>
+                    <p className="text-white">3+ Years</p>
+                  </div>
+                </div>
+                
+                <div className="mt-8">
+                  <h4 className="text-lg text-purple-400 mb-4">Professional Links</h4>
+                  <div className="grid grid-cols-2 gap-2">
+                    <a href="https://github.com/" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors">
+                      <FaGithub className="w-4 h-4" />
+                      <span>GitHub</span>
+                    </a>
+                    <a href="https://linkedin.com/in/" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors">
+                      <FaLinkedinIn className="w-4 h-4" />
+                      <span>LinkedIn</span>
+                    </a>
+                    <a href="https://kaggle.com/" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors">
+                      <FaKaggle className="w-4 h-4" />
+                      <span>Kaggle</span>
+                    </a>
+                    <a href="https://dev.to/" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors">
+                      <FaDev className="w-4 h-4" />
+                      <span>Dev Community</span>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -361,6 +336,7 @@ const SkillsSection = () => {
       skills: [
         { name: "React", level: 90 },
         { name: "Angular", level: 85 },
+        { name: "Next.js", level: 80 },
         { name: "JavaScript", level: 95 },
         { name: "TypeScript", level: 85 },
         { name: "HTML5/CSS3", level: 90 },
@@ -374,33 +350,37 @@ const SkillsSection = () => {
         { name: "Node.js", level: 88 },
         { name: "Python", level: 85 },
         { name: "Django", level: 80 },
+        { name: "Flask", level: 75 },
         { name: "Golang (Gin)", level: 75 },
         { name: ".NET Core", level: 70 },
-        { name: "CakePHP", level: 75 }
+        { name: "CakePHP", level: 75 },
+        { name: "FastAPI", level: 70 }
       ]
     },
     {
-      title: "Database & DevOps",
-      icon: "🔧",
+      title: "Database & Cloud",
+      icon: "🗄️",
       skills: [
         { name: "MongoDB", level: 85 },
         { name: "MySQL", level: 80 },
         { name: "PostgreSQL", level: 75 },
         { name: "AWS", level: 70 },
-        { name: "Docker", level: 75 },
-        { name: "Jenkins", level: 70 }
+        { name: "Firebase", level: 80 },
+        { name: "Heroku", level: 75 }
       ]
     },
     {
-      title: "Tools & Technologies",
-      icon: "🛠️",
+      title: "DevOps & AI/ML",
+      icon: "🔧",
       skills: [
+        { name: "Docker", level: 75 },
+        { name: "Jenkins", level: 70 },
         { name: "Git", level: 90 },
-        { name: "RESTful APIs", level: 88 },
-        { name: "GraphQL", level: 75 },
+        { name: "CI/CD Pipelines", level: 75 },
         { name: "TensorFlow", level: 70 },
-        { name: "Firebase", level: 80 },
-        { name: "Stripe", level: 75 }
+        { name: "PyTorch", level: 65 },
+        { name: "Reinforcement Learning", level: 70 },
+        { name: "LLM Integration", level: 65 }
       ]
     }
   ];
@@ -437,6 +417,27 @@ const SkillsSection = () => {
             </div>
           ))}
         </div>
+
+        {/* Certificates Section */}
+        <div className="mt-16">
+          <h2 className="text-3xl font-bold text-center mb-4 text-white">Certifications</h2>
+          <div className="w-16 h-1 bg-purple-600 mx-auto mb-8"></div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-purple-900">
+              <h3 className="text-xl font-bold text-purple-400 mb-2">Deep Agents with LangGraph</h3>
+              <p className="text-gray-300 mb-2">Certificate of Completion</p>
+              <p className="text-gray-400 text-sm">Completed a specialized project on building and deploying AI agents using LangGraph</p>
+              <p className="text-purple-300 text-sm mt-2">Issued: September 2025</p>
+            </div>
+            
+            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-purple-900">
+              <h3 className="text-xl font-bold text-purple-400 mb-2">Hack-AI-Thon (SBI Life × Hack2Skill)</h3>
+              <p className="text-gray-300 mb-2">Certificate of Participation</p>
+              <p className="text-gray-400 text-sm">Participated in a nationwide AI innovation hackathon focused on creativity, collaboration, and real-world AI solutions</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -445,52 +446,67 @@ const SkillsSection = () => {
 const ProjectsSection = () => {
   const projects = [
     {
-      title: "Real-Time Chat Application",
-      period: "Jan 2022 - Jul 2022",
-      description: "Built interactive chat app with React/Redux frontend and Firebase for authentication/storage. Developed Node.js/Socket.io backend for real-time messaging, supporting 1,000+ concurrent users with <100ms latency.",
+      title: "Realtime Communication Platform",
+      period: "2022 - 2023",
+      description: "Enhanced a real-time chat platform with secure Firebase login, instant messaging via Socket.io, and dynamic UI with React & Redux. Expanded engagement features improved user retention by 20%.",
       technologies: ["React", "Redux", "Node.js", "Socket.io", "Firebase"],
-      achievements: ["Enhanced user experiences, boosting interaction by 35%", "Real-time messaging with <100ms latency"],
+      achievements: ["Secure Firebase authentication", "Real-time messaging with typing indicators", "Media sharing capabilities", "20% improvement in user retention"],
+      metrics: "20% user retention improvement",
       status: "Completed"
     },
     {
       title: "Endorsement Platform",
-      period: "Mar 2023 - Aug 2023",
-      description: "Led full-stack social tool with React UI and Node.js backend, handling 10,000+ daily interactions at 99.9% uptime. Designed MongoDB schemas and GraphQL APIs, reducing query times by 25% vs. REST.",
-      technologies: ["React", "Node.js", "Express", "MongoDB", "GraphQL", "Bootstrap"],
-      achievements: ["Improved retention by 15%", "Reduced query times by 25%", "99.9% uptime"],
+      period: "2023",
+      description: "Created a full-stack engagement system using Angular and FastAPI, optimizing MongoDB schemas for 10,000+ daily interactions. Integrated GraphQL APIs and automated deployments via Docker and AWS.",
+      technologies: ["Angular", "FastAPI", "MongoDB", "GraphQL", "Docker", "AWS"],
+      achievements: ["10,000+ daily interactions", "25% improved response times", "99.9% uptime", "Automated CI/CD pipelines"],
+      metrics: "25% faster response times, 99.9% uptime",
       status: "Completed"
     },
     {
       title: "E-Commerce Catalog",
-      period: "Sep 2023 - Feb 2024",
-      description: "Created dynamic catalog with Angular frontend for search/filtering of 5,000+ products. Built secure .NET Core backend with RESTful APIs and Stripe integration for 100% transaction success.",
-      technologies: ["Angular", ".NET Core", "MySQL", "Stripe", "TypeScript"],
-      achievements: ["Optimized MySQL queries for 40% faster loads", "100% transaction success rate"],
+      period: "2023 - 2024",
+      description: "Improved an e-commerce catalog with category filtering, secure checkout, and optimized MySQL queries. Expanded backend using .NET Core and Stripe for seamless transactions.",
+      technologies: ["Angular", ".NET Core", "MySQL", "Stripe", "Docker", "AWS"],
+      achievements: ["40% reduced load time", "Secure payment processing", "Category filtering system", "Reliable deployment pipelines"],
+      metrics: "40% faster load times",
       status: "Completed"
     },
     {
       title: "Dealership CRM (DP360)",
-      period: "Apr 2024 - Sep 2024",
-      description: "Built scalable CRM with Angular dashboards and CakePHP APIs for 1,000+ daily interactions. Containerized with Docker/Nginx for 99.8% uptime and zero data loss via MySQL.",
-      technologies: ["Angular", "CakePHP", "Docker", "MySQL", "Nginx"],
-      achievements: ["Reduced deployment time by 20%", "99.8% uptime", "Zero data loss"],
+      period: "2024",
+      description: "Created a scalable CRM for automotive dealerships with Angular frontend and CakePHP APIs. Enhanced reliability through Docker containerization and AWS-based CI/CD pipelines.",
+      technologies: ["Angular", "CakePHP", "MySQL", "Docker", "AWS", "Nginx"],
+      achievements: ["Scalable architecture", "99.8% uptime", "Automated workflows", "Streamlined collaboration"],
+      metrics: "99.8% uptime",
       status: "Completed"
     },
     {
-      title: "Next.js Blog Platform with AI",
-      period: "Oct 2024 - Present",
-      description: "Developing SEO-optimized blog with Next.js SSR/SSG, improving rankings by 40%. Integrating TensorFlow AI via Django/GraphQL/MongoDB for personalized suggestions.",
-      technologies: ["Next.js", "Django", "TensorFlow", "MongoDB", "GraphQL", "AWS"],
-      achievements: ["40% improvement in SEO rankings", "22% increase in user engagement"],
+      title: "Next.js Blog Platform with AI Suggestions",
+      period: "2024 - Present",
+      description: "Enhanced a high-performance blogging platform using Next.js and Django, boosting SEO by 40%. Integrated AI-driven content recommendations via TensorFlow, improving engagement by 22%.",
+      technologies: ["Next.js", "Django", "TensorFlow", "MongoDB", "Docker", "AWS"],
+      achievements: ["40% SEO improvement", "22% engagement increase", "AI content recommendations", "Secure cloud deployment"],
+      metrics: "40% SEO boost, 22% engagement increase",
       status: "In Progress"
     },
     {
-      title: "AI Wellness Coach with RL",
-      period: "Nov 2024 - Present",
-      description: "Architecting modular wellness app with Flask APIs for auth, tracking, and predictions. Implementing TensorFlow Q-Learning model for 15% more accurate recommendations.",
-      technologies: ["Flask", "Python", "TensorFlow", "MongoDB", "JWT"],
-      achievements: ["15% more accurate recommendations", "Scalable architecture"],
+      title: "AI Wellness Coach (Reinforcement Learning)",
+      period: "2024 - Present",
+      description: "Expanded a modular wellness platform with Flask APIs for calorie prediction and user tracking. Improved AI accuracy by 15% using reinforcement learning (Q-learning).",
+      technologies: ["Flask", "TensorFlow", "MongoDB", "Docker", "AWS"],
+      achievements: ["15% AI accuracy improvement", "Reinforcement learning implementation", "500+ daily predictions", "Secure deployment"],
+      metrics: "15% AI accuracy improvement",
       status: "In Progress"
+    },
+    {
+      title: "Secure File Storage & Sharing System",
+      period: "2024",
+      description: "Planned and delivered a secure file-sharing platform with Go backend and React frontend. Integrated AWS S3 for cloud storage, JWT authentication, and RBAC security.",
+      technologies: ["Go (Chi)", "React", "AWS S3", "PostgreSQL", "Docker", "Nginx"],
+      achievements: ["JWT authentication", "RBAC security", "99.95% uptime", "High performance architecture"],
+      metrics: "99.95% uptime",
+      status: "Completed"
     }
   ];
 
@@ -500,13 +516,13 @@ const ProjectsSection = () => {
         <h2 className="text-4xl font-bold text-center mb-4 text-white">Key Projects</h2>
         <div className="w-20 h-1 bg-purple-600 mx-auto mb-12"></div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {projects.map((project, index) => (
             <div 
               key={index} 
-              className="bg-gray-800 rounded-xl overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border border-gray-700"
+              className="bg-gray-800 rounded-xl overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border border-gray-700 flex flex-col"
             >
-              <div className="p-6">
+              <div className="p-6 flex-grow">
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-xl font-bold text-white">{project.title}</h3>
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${
@@ -521,11 +537,16 @@ const ProjectsSection = () => {
                 <p className="text-purple-400 text-sm mb-3">{project.period}</p>
                 <p className="text-gray-300 mb-4 leading-relaxed">{project.description}</p>
                 
+                <div className="mb-4">
+                  <p className="text-gray-400 text-sm font-medium mb-2">Key Metrics:</p>
+                  <p className="text-green-400 text-sm font-semibold">{project.metrics}</p>
+                </div>
+                
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.technologies.map((tech, techIndex) => (
                     <span 
                       key={techIndex} 
-                      className="px-3 py-1 bg-purple-900 text-purple-200 rounded-full text-sm"
+                      className="px-2 py-1 bg-purple-900 text-purple-200 rounded-full text-xs"
                     >
                       {tech}
                     </span>
@@ -533,7 +554,7 @@ const ProjectsSection = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <p className="text-gray-400 text-sm font-medium">Key Achievements:</p>
+                  <p className="text-gray-400 text-sm font-medium">Achievements:</p>
                   <ul className="list-disc list-inside text-gray-300 text-sm space-y-1">
                     {project.achievements.map((achievement, achievementIndex) => (
                       <li key={achievementIndex}>{achievement}</li>
@@ -555,19 +576,18 @@ const ExperienceSection = () => {
       role: "Full-Stack Developer",
       company: "Profilics Systems Pvt. Ltd.",
       location: "Ujjain, India",
-      period: "January 2022 – Present",
-      description: "Specializing in User-Centric Applications and AI & Performance Optimization",
+      period: "Jun 2022 – Present",
+      duration: "2+ years full-time + 1-year internship",
+      description: "Developed and deployed scalable full-stack web applications serving 15,000+ active users and handling 5,000+ daily transactions",
       achievements: [
         "Engineered full-stack applications using React, Angular, Node.js, Django, and CakePHP",
-        "Integrated RESTful and GraphQL APIs to support seamless data flows and reduce latency by 30%",
-        "Managed diverse databases (MongoDB, MySQL, PostgreSQL) and orchestrated deployments on AWS, Heroku, and Firebase",
-        "Ensured 99.9% uptime for high-traffic platforms handling 10,000+ daily users",
-        "Implemented DevOps workflows with Docker and Jenkins for automated CI/CD pipelines",
-        "Accelerated deployment cycles by 25% while maintaining rigorous code quality via Jest and Mocha testing",
-        "Leveraged AI/ML models (TensorFlow, Q-Learning) to enhance app features and improve prediction accuracy by 15%",
-        "Collaborated in agile teams to deliver scalable solutions, optimizing user experiences"
+        "Integrated AI-driven features and automation workflows that improved system performance by 35% and increased user engagement by 25%",
+        "Designed and managed RESTful and GraphQL APIs, optimizing MongoDB, MySQL, and PostgreSQL databases to reduce query response times by 40%",
+        "Orchestrated cloud deployments on AWS, Firebase, and Heroku, implementing auto-scaling and load balancing to achieve 99.95% uptime",
+        "Streamlined development workflows with Docker containerization, Jenkins automation, and CI/CD pipelines, reducing deployment time by 30%",
+        "Implemented security best practices including JWT authentication, data encryption, and vulnerability scanning"
       ],
-      technologies: ["React", "Angular", "Node.js", "Django", "CakePHP", "MongoDB", "MySQL", "PostgreSQL", "AWS", "Docker", "Jenkins", "TensorFlow"]
+      technologies: ["React", "Angular", "Node.js", "Django", "CakePHP", "MongoDB", "MySQL", "PostgreSQL", "AWS", "Docker", "Jenkins", "TensorFlow", "GraphQL"]
     }
   ];
 
@@ -585,6 +605,7 @@ const ExperienceSection = () => {
                   <h3 className="text-2xl font-bold text-white">{exp.role}</h3>
                   <p className="text-purple-400 text-lg font-medium mt-1">{exp.company}</p>
                   <p className="text-gray-400 mt-1">{exp.location}</p>
+                  <p className="text-gray-300 text-sm mt-1">{exp.duration}</p>
                 </div>
                 <span className="text-purple-300 bg-purple-900 px-4 py-2 rounded-full text-sm font-medium mt-2 lg:mt-0">
                   {exp.period}
@@ -688,7 +709,7 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <p className="text-gray-400">Email</p>
-                  <p className="text-white">pratikraut.9115@gmail.com</p>
+                  <a href="mailto:pratik.raut9115@gmail.com" className="text-white hover:text-purple-400">pratik.raut9115@gmail.com</a>
                 </div>
               </div>
               
@@ -700,7 +721,7 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <p className="text-gray-400">Phone</p>
-                  <p className="text-white">+91-9111502449</p>
+                  <a href="tel:+919111502449" className="text-white hover:text-purple-400">+91-9111502449</a>
                 </div>
               </div>
               
@@ -721,7 +742,7 @@ const ContactSection = () => {
             {/* Social Links */}
             <div className="pt-6">
               <p className="text-gray-400 mb-4">Connect with me:</p>
-              <div className="flex space-x-4">
+              <div className="flex space-x-4 flex-wrap gap-3">
                 {[
                   { icon: <FaGithub />, link: "https://github.com/", label: "GitHub" },
                   { icon: <FaLinkedinIn />, link: "https://linkedin.com/in/", label: "LinkedIn" },
@@ -815,7 +836,7 @@ const Footer = () => {
             { icon: <FaDev />, link: "https://dev.to/" },
             { icon: <FaBitbucket />, link: "https://bitbucket.org/" },
             { icon: <FaHackerrank />, link: "https://hackerrank.com/" },
-            { icon: <AiOutlineMail />, link: "mailto:pratikraut.9115@gmail.com" }
+            { icon: <AiOutlineMail />, link: "mailto:pratik.raut9115@gmail.com" }
           ].map((social, index) => (
             <a
               key={index}
@@ -829,7 +850,7 @@ const Footer = () => {
           ))}
         </div>
         <p className="text-sm">© {new Date().getFullYear()} Pratik Raut. All rights reserved.</p>
-        <p className="text-sm mt-2 text-gray-500">Full-Stack Software Engineer</p>
+        <p className="text-sm mt-2 text-gray-500">Full-Stack Software Engineer & AI Developer</p>
         <p className="text-xs mt-2 text-gray-600">Designed and developed with ❤️ using Next.js & Tailwind CSS</p>
       </div>
     </footer>
