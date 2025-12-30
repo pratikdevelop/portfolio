@@ -415,7 +415,7 @@ const SkillsSection = () => {
         </div>
 
         {/* Technology Proficiency Overview */}
-        <div className="bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-xl border border-gray-700 max-w-6xl mx-auto">
+        {/* <div className="bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-xl border border-gray-700 max-w-6xl mx-auto">
           <h3 className="text-xl sm:text-2xl font-bold text-indigo-400 mb-6 text-center">Technology Stack Overview</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {[
@@ -433,14 +433,54 @@ const SkillsSection = () => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Certificates Section */}
         <div className="mt-16">
           <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4 text-white">Certifications</h2>
           <div className="w-16 h-1 bg-indigo-500 mx-auto mb-8"></div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-indigo-500/30 hover:border-indigo-500 transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-indigo-400 mb-2">5-Day AI Agents Intensive Course with Google</h3>
+              <p className="text-gray-300 mb-2">Kaggle • Certificate of Completion</p>
+              <p className="text-gray-400 text-sm">Issued December 2025</p>
+            </div>
+
+            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-cyan-500/30 hover:border-cyan-500 transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-cyan-400 mb-2">End-to-End Machine Learning on Vertex AI</h3>
+              <p className="text-gray-300 mb-2">Unstop • Certificate of Participation</p>
+              <p className="text-gray-400 text-sm">Credential ID: b9333ebd-80d4-4368-94ec-0fbd7159087b</p>
+              <p className="text-gray-400 text-sm">Issued December 2025</p>
+            </div>
+
+            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-purple-500/30 hover:border-purple-500 transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-purple-400 mb-2">Price</h3>
+              <p className="text-gray-300 mb-2">Unstop • Certificate of Participation</p>
+              <p className="text-gray-400 text-sm">Credential ID: 64ffb26-04f0-4c64-8a06-1003009363c</p>
+              <p className="text-gray-400 text-sm">Issued December 2025</p>
+            </div>
+
+            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-green-500/30 hover:border-green-500 transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-green-400 mb-2">Blockchain Basics</h3>
+              <p className="text-gray-300 mb-2">Cyfrin Updraft • Certification</p>
+              <p className="text-gray-400 text-sm">Credential ID: BBCC-CYSV H3SCAR0</p>
+              <p className="text-gray-400 text-sm">Issued December 2025 • Expires December 2026</p>
+            </div>
+
+            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-blue-500/30 hover:border-blue-500 transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-blue-400 mb-2">Deep Agents with LangGraph</h3>
+              <p className="text-gray-300 mb-2">LangChain Academy • Certificate of Completion</p>
+              <p className="text-gray-400 text-sm">Issued September 2025</p>
+            </div>
+
+            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-teal-500/30 hover:border-teal-500 transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-teal-400 mb-2">JavaScript Specialist Certification</h3>
+              <p className="text-gray-300 mb-2">HackerRank</p>
+              <p className="text-gray-400 text-sm">Issued August 2023</p>
+            </div>
+
+            {/* Existing ones you already had – kept for completeness */}
             <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-indigo-500/30 hover:border-indigo-500 transition-colors">
               <h3 className="text-lg sm:text-xl font-bold text-indigo-400 mb-2">Deep Agents with LangGraph</h3>
               <p className="text-gray-300 mb-2">Certificate of Completion</p>
@@ -459,12 +499,10 @@ const SkillsSection = () => {
     </section>
   );
 };
-
 const ProjectsSection = () => {
   const projects = [
     {
       title: "Realtime Communication Platform",
-      period: "2022 - 2023",
       description: "Enhanced a real-time chat platform with secure Firebase login, instant messaging via Socket.io, and dynamic UI with React & Redux. Expanded engagement features, such as typing indicators, media sharing, and push notifications, improved user retention by 20%.",
       technologies: ["React", "Redux", "Node.js", "Socket.io", "Firebase"],
       achievements: ["Secure Firebase authentication", "Real-time messaging", "Media sharing capabilities", "Push notifications"],
@@ -473,7 +511,6 @@ const ProjectsSection = () => {
     },
     {
       title: "Endorsement Platform",
-      period: "2023",
       description: "Created a full-stack engagement system using Angular and FastAPI, optimizing MongoDB schemas for 10,000+ daily interactions. Integrated GraphQL APIs and automated deployments via Docker and AWS, improved response times by 25% while achieving 99.9% uptime.",
       technologies: ["Angular", "FastAPI", "MongoDB", "GraphQL", "Docker", "AWS"],
       achievements: ["10,000+ daily interactions", "25% improved response times", "99.9% uptime"],
@@ -482,7 +519,6 @@ const ProjectsSection = () => {
     },
     {
       title: "E-Commerce Catalog",
-      period: "2023 - 2024",
       description: "Improved an e-commerce catalog with category filtering, secure checkout, and optimized MySQL queries (reduced load time by 40%). Expanded backend using .NET Core and Stripe for seamless transactions. Implemented CI/CD pipelines with Docker and AWS for reliable deployment.",
       technologies: ["Angular", ".NET Core", "MySQL", "Stripe", "Docker", "AWS"],
       achievements: ["40% reduced load time", "Secure payment processing", "Category filtering"],
@@ -491,7 +527,6 @@ const ProjectsSection = () => {
     },
     {
       title: "Dealership CRM (DP360)",
-      period: "2024",
       description: "Created a scalable CRM for automotive dealerships with Angular frontend and CakePHP APIs. Enhanced reliability through Docker containerization and AWS-based CI/CD pipelines, achieving 99.8% uptime. Streamlined collaboration with automated build and deployment workflows.",
       technologies: ["Angular", "CakePHP", "MySQL", "Docker", "AWS", "Nginx"],
       achievements: ["Scalable architecture", "99.8% uptime", "Automated workflows"],
@@ -500,7 +535,6 @@ const ProjectsSection = () => {
     },
     {
       title: "Next.js Blog Platform with AI",
-      period: "2024 - Present",
       description: "Enhanced a high-performance blogging platform using Next.js and Django, boosting SEO by 40%. Integrated AI-driven content recommendations via TensorFlow, improving engagement by 22%. Expanded cloud infrastructure with Docker and AWS for secure, scalable deployment.",
       technologies: ["Next.js", "Django", "TensorFlow", "MongoDB", "Docker", "AWS"],
       achievements: ["40% SEO improvement", "22% engagement increase", "AI content recommendations"],
@@ -509,7 +543,6 @@ const ProjectsSection = () => {
     },
     {
       title: "AI Wellness Coach (RL)",
-      period: "2024 - Present",
       description: "Expanded a modular wellness platform with Flask APIs for calorie prediction and user tracking. Improved AI accuracy by 15% using reinforcement learning (Q-learning). Automated deployment through Docker and AWS pipelines, handling 500+ daily predictions securely.",
       technologies: ["Flask", "TensorFlow", "MongoDB", "Docker", "AWS"],
       achievements: ["15% AI accuracy improvement", "Reinforcement learning", "500+ daily predictions"],
@@ -518,17 +551,24 @@ const ProjectsSection = () => {
     },
     {
       title: "Secure File Storage & Sharing System",
-      period: "2024 - Present",
       description: "Planned and delivered a secure file-sharing platform with Go backend and React frontend. Integrated AWS S3 for cloud storage, JWT authentication, and RBAC security. Deployed using Docker and CI/CD pipelines, achieving 99.95% uptime with high performance.",
       technologies: ["Go (Chi)", "React", "AWS S3", "PostgreSQL", "Docker", "Nginx"],
       achievements: ["99.95% uptime", "JWT & RBAC security", "Cloud storage integration"],
       metrics: "99.95% uptime",
       status: "In Progress"
+    },
+    {
+      title: "Real-Time Collaborative Task Management Platform",
+      description: "Built a full-stack Trello-like collaborative task management application with real-time updates using Next.js for the responsive frontend and Node.js/Express backend. Integrated RabbitMQ for asynchronous notifications and background processing, optimized PostgreSQL schemas, and deployed on AWS with Docker and CI/CD pipelines.",
+      technologies: ["Next.js", "React", "Node.js", "Express", "PostgreSQL", "Prisma", "RabbitMQ", "Docker", "AWS", "Tailwind CSS", "JWT", "SSE/WebSockets"],
+      achievements: ["Real-time task synchronization via SSE/WebSockets", "Asynchronous processing with RabbitMQ", "Secure JWT authentication & RBAC", "Scalable AWS deployment with CI/CD"],
+      metrics: "High-concurrency real-time collaboration support",
+      status: "Completed"
     }
   ];
 
   return (
-    <section id="projects" className="min-h-screen py-16 px-4 bg-gray-800">
+    <section id="projects" className="min-h-screen py-16 px-4 mx-5 bg-gray-800">
       <div className="container mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4 text-white">Key Projects</h2>
         <div className="w-20 h-1 bg-indigo-500 mx-auto mb-12"></div>
@@ -551,7 +591,6 @@ const ProjectsSection = () => {
                   </span>
                 </div>
                 
-                <p className="text-indigo-400 text-sm mb-3 font-medium">{project.period}</p>
                 <p className="text-gray-300 mb-4 leading-relaxed text-sm sm:text-base">{project.description}</p>
                 
                 <div className="mb-4">
@@ -604,8 +643,34 @@ const ExperienceSection = () => {
         "Streamlined development workflows with Docker and Jenkins, reducing deployment time by 30%",
         "Implemented security best practices including JWT authentication and data encryption"
       ],
-      technologies: ["React", "Angular", "Node.js", "Django", "CakePHP", "MongoDB", "MySQL", "PostgreSQL", "AWS", "Docker", "Jenkins", "TensorFlow", "GraphQL"]
-    }
+technologies: [
+  "React",
+  "Next.js",
+  "Angular",
+  "Node.js",
+  "Express",
+  "Django",
+  "FastAPI",
+  "Flask",
+  "Go",
+  "CakePHP",
+  ".NET Core",
+  "PostgreSQL",
+  "MySQL",
+  "MongoDB",
+  "Redis",
+  "RabbitMQ",
+  "Socket.io",
+  "TensorFlow",
+  "Stripe",
+  "Firebase",
+  "GraphQL",
+  "JWT",
+  "AWS",
+  "Docker",
+  "Nginx",
+  "Tailwind CSS",
+]    }
   ];
 
   return (
