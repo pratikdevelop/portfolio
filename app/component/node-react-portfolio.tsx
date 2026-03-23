@@ -1,0 +1,844 @@
+'use client'
+
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { AiOutlineClose, AiOutlineMail, AiOutlineMenu } from "react-icons/ai";
+import { FaGithub, FaLinkedinIn, FaKaggle, FaDev, FaBitbucket, FaHackerrank } from 'react-icons/fa';
+import { BsFillFilePersonFill, BsDownload } from 'react-icons/bs';
+import Image from "next/image";
+import emailjs from '@emailjs/browser';
+
+const Portfolio = () => {
+  const [activeSection, setActiveSection] = useState("home");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [nav, setNav] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = document.querySelectorAll("section");
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop;
+        if (window.scrollY >= sectionTop - 100) {
+          setActiveSection(section.id);
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId: any) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      window.scrollTo({
+        top: section.offsetTop,
+        behavior: "smooth"
+      });
+      setActiveSection(sectionId);
+      setIsMenuOpen(false);
+    }
+  };
+
+  const handleDownloadPDF = () => {
+    const link = document.createElement('a');
+    link.href = '/Pratik_Raut_Full_Stack_Developer_Nodejs_React.pdf';
+    link.download = 'Pratik_Raut_Full_Stack_Developer_Nodejs_React.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+      {/* Navigation */}
+      <nav className="fixed w-full bg-gray-900/95 backdrop-blur-sm z-40 shadow-lg border-b border-gray-700">
+        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+          <div className="text-2xl font-bold text-indigo-400">Pratik Raut</div>
+          
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex space-x-4 items-center">
+            {["home", "about", "skills", "projects", "experience", "contact"].map((item) => (
+              <button
+                key={item}
+                onClick={() => scrollToSection(item)}
+                className={`px-3 py-2 rounded-lg transition-all duration-300 ${
+                  activeSection === item
+                    ? "bg-indigo-600 text-white shadow-lg"
+                    : "text-gray-300 hover:text-white hover:bg-gray-800"
+                }`}
+              >
+                {item.charAt(0).toUpperCase() + item.slice(1)}
+              </button>
+            ))}
+            <button
+              onClick={handleDownloadPDF}
+              className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors flex items-center space-x-2 shadow-lg"
+            >
+              <BsDownload className="w-4 h-4" />
+              <span>Download CV</span>
+            </button>
+          </div>
+          
+          {/* Mobile Menu Button */}
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={handleDownloadPDF}
+              className="px-3 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors flex items-center space-x-2 md:hidden shadow-lg"
+            >
+              <BsDownload className="w-4 h-4" />
+            </button>
+            <button
+              className="md:hidden text-white focus:outline-none"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {isMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-gray-800/95 backdrop-blur-sm py-4 border-b border-gray-700">
+            <div className="container mx-auto px-4 flex flex-col space-y-3">
+              {["home", "about", "skills", "projects", "experience", "contact"].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item)}
+                  className={`px-3 py-2 rounded-lg transition-all duration-300 ${
+                    activeSection === item
+                      ? "bg-indigo-600 text-white shadow-lg"
+                      : "text-gray-300 hover:text-white hover:bg-gray-700"
+                  }`}
+                >
+                  {item.charAt(0).toUpperCase() + item.slice(1)}
+                </button>
+              ))}
+              <button
+                onClick={handleDownloadPDF}
+                className="px-3 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors flex items-center space-x-2 justify-center shadow-lg"
+              >
+                <BsDownload className="w-4 h-4" />
+                <span>Download CV</span>
+              </button>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* Home Section */}
+      <HomeSection onDownloadCV={handleDownloadPDF} />
+
+      {/* About Section */}
+      <AboutSection />
+
+      {/* Skills Section */}
+      <SkillsSection />
+
+      {/* Projects Section */}
+      <ProjectsSection />
+
+      {/* Experience Section */}
+      <ExperienceSection />
+
+      {/* Contact Section */}
+      <ContactSection />
+
+      {/* Footer */}
+      <Footer />
+    </div>
+  );
+};
+
+const HomeSection = ({ onDownloadCV }: { onDownloadCV: () => void }) => {
+  return (
+    <section id="home" className="min-h-screen flex items-center justify-center pt-20 pb-16 px-4">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="space-y-6 animate-fade-in">
+          <div className="text-xl text-indigo-400 font-medium">Hello, I'm</div>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white">Pratik Raut</h1>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl text-indigo-400 font-semibold">Full Stack Developer</h2>
+          <p className="text-gray-300 max-w-md leading-relaxed text-base sm:text-lg">
+            Full Stack Developer with 3.8 years of experience building scalable, high-performance web applications using Node.js and React.js. Expert in designing REST APIs, microservices, and real-time systems with a strong focus on performance, scalability, and clean architecture.
+          </p>
+          <div className="flex space-x-4 pt-4 flex-wrap gap-3">
+            <button 
+              onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
+              className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-lg font-medium"
+            >
+              View My Work
+            </button>
+            <button 
+              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+              className="px-6 py-3 border border-indigo-500 text-indigo-400 rounded-lg hover:bg-indigo-900/30 transition-colors font-medium"
+            >
+              Contact Me
+            </button>
+            <button 
+              onClick={onDownloadCV}
+              className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors flex items-center space-x-2 shadow-lg font-medium"
+            >
+              <BsDownload className="w-4 h-4" />
+              <span>Download CV</span>
+            </button>
+          </div>
+          
+          {/* Social Links */}
+          <div className="flex space-x-4 pt-6 flex-wrap gap-3">
+            {[
+              { icon: <FaGithub />, link: "https://github.com/pratikdevelop", label: "GitHub" },
+              { icon: <FaLinkedinIn />, link: "https://www.linkedin.com/in/pratik-raut-39b631227/", label: "LinkedIn" },
+              { icon: <FaKaggle />, link: "https://www.kaggle.com/pratik222", label: "Kaggle" },
+              { icon: <FaDev />, link: "https://dev.to/raut45", label: "Dev Community" },
+              { icon: <FaBitbucket />, link: "https://bitbucket.org/pratik_5678/workspace/overview/", label: "Bitbucket" },
+              { icon: <FaHackerrank />, link: "https://www.hackerrank.com/profile/pratikraut88895", label: "HackerRank" }
+            ].map((social, index) => (
+              <a
+                key={index}
+                href={social.link}
+                className="p-3 bg-gray-800 rounded-lg hover:bg-indigo-600 transition-colors text-white shadow-lg"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.label}
+              >
+                {social.icon}
+              </a>
+            ))}
+          </div>
+        </div>
+        
+        <div className="flex justify-center animate-float">
+          <div className="relative">
+            <div className="absolute -inset-4 bg-gradient-to-r from-indigo-600 to-teal-500 rounded-full blur-lg opacity-20 animate-pulse"></div>
+            <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 bg-gradient-to-br from-indigo-700 to-teal-600 rounded-full flex items-center justify-center text-white text-5xl sm:text-6xl font-bold shadow-2xl border-4 border-indigo-400/20">
+              PR
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const AboutSection = () => {
+  return (
+    <section id="about" className="min-h-screen py-16 px-4 bg-gray-800">
+      <div className="container mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4 text-white">About Me</h2>
+        <div className="w-20 h-1 bg-indigo-500 mx-auto mb-12"></div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6">
+            <h3 className="text-xl sm:text-2xl text-indigo-400 font-semibold">Professional Summary</h3>
+            <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
+              Full Stack Developer with <strong className="text-indigo-400">3.8 years of experience</strong> building scalable, high-performance web applications using Node.js and React.js. Expert in designing REST APIs, microservices, and real-time systems with a strong focus on performance, scalability, and clean architecture.
+            </p>
+            <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
+              Experienced in <strong className="text-indigo-400">PostgreSQL, MongoDB, AWS, Docker, and CI/CD pipelines</strong>, delivering production-grade systems handling <strong className="text-indigo-400">15,000+ users</strong> and <strong className="text-indigo-400">5,000+ daily transactions</strong>.
+            </p>
+            <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
+              I specialize in building robust backend systems with Node.js, creating responsive frontends with React.js, and implementing event-driven architectures using Kafka and RabbitMQ for real-time workflows.
+            </p>
+            <div className="pt-4 flex space-x-4 flex-wrap gap-3">
+              <a
+                href="#contact"
+                className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors inline-block shadow-lg font-medium"
+              >
+                Get In Touch
+              </a>
+              <a
+                href="#projects"
+                className="px-6 py-3 border border-indigo-500 text-indigo-400 rounded-lg hover:bg-indigo-900/30 transition-colors inline-block font-medium"
+              >
+                View Projects
+              </a>
+            </div>
+          </div>
+          
+          <div className="flex justify-center">
+            <div className="bg-gradient-to-br from-indigo-600 to-teal-500 p-1 rounded-xl shadow-2xl w-full max-w-md">
+              <div className="bg-gray-800 p-6 sm:p-8 rounded-lg h-full">
+                <h3 className="text-xl sm:text-2xl text-indigo-400 mb-6 text-center font-semibold">Personal Details</h3>
+                <div className="space-y-4">
+                  {[
+                    { label: "Full Name:", value: "Pratik Raut" },
+                    { label: "Date of Birth:", value: "April 6, 2001" },
+                    { label: "Location:", value: "Ujjain, Madhya Pradesh, India" },
+                    { label: "Email:", value: "pratik.raut9115@gmail.com", link: true },
+                    { label: "Phone:", value: "+91-9111502449", link: true },
+                    { label: "Experience:", value: "3.8+ Years" }
+                  ].map((item, index) => (
+                    <div key={index} className="flex justify-between border-b border-gray-700 pb-2">
+                      <span className="text-gray-400">{item.label}</span>
+                      {item.link ? (
+                        <a 
+                          href={item.label === "Email:" ? "mailto:pratik.raut9115@gmail.com" : "tel:+919111502449"}
+                          className="text-white hover:text-indigo-400 transition-colors"
+                        >
+                          {item.value}
+                        </a>
+                      ) : (
+                        <p className="text-white">{item.value}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="mt-8">
+                  <h4 className="text-base sm:text-lg text-indigo-400 mb-4 font-semibold">Professional Links</h4>
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      { icon: <FaGithub />, label: "GitHub", link: "https://github.com/pratikdevelop" },
+                      { icon: <FaLinkedinIn />, label: "LinkedIn", link: "https://www.linkedin.com/in/pratik-raut-39b631227/" },
+                      { icon: <FaKaggle />, label: "Kaggle", link: "https://www.kaggle.com/pratik222" },
+                      { icon: <FaDev />, label: "Dev Community", link: "https://dev.to/raut45" }
+                    ].map((social, index) => (
+                      <a 
+                        key={index}
+                        href={social.link}
+                        target="_blank"
+                        rel="noopener noreferrer" 
+                        className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors p-2 rounded-lg hover:bg-gray-700"
+                      >
+                        {social.icon}
+                        <span>{social.label}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const SkillsSection = () => {
+  const skills = {
+    "Frontend": [
+      { name: "React.js", level: 90 },
+      { name: "JavaScript/TypeScript", level: 88 },
+      { name: "HTML5/CSS3", level: 85 },
+      { name: "Redux", level: 80 },
+      { name: "Tailwind CSS/Bootstrap", level: 85 }
+    ],
+    "Backend": [
+      { name: "Node.js/Express.js", level: 90 },
+      { name: "REST APIs", level: 92 },
+      { name: "Microservices", level: 85 },
+      { name: "GraphQL", level: 75 },
+      { name: "Event-Driven Architecture", level: 80 }
+    ],
+    "Databases": [
+      { name: "PostgreSQL", level: 85 },
+      { name: "MongoDB", level: 85 },
+      { name: "MySQL", level: 80 },
+      { name: "Redis", level: 75 },
+      { name: "Prisma/Sequelize", level: 80 }
+    ],
+    "DevOps & Cloud": [
+      { name: "AWS", level: 80 },
+      { name: "Docker", level: 85 },
+      { name: "CI/CD Pipelines", level: 80 },
+      { name: "Git", level: 90 },
+      { name: "Kafka/RabbitMQ", level: 75 }
+    ]
+  };
+
+  return (
+    <section id="skills" className="min-h-screen py-16 px-4 bg-gray-900">
+      <div className="container mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4 text-white">Technical Skills</h2>
+        <div className="w-20 h-1 bg-indigo-500 mx-auto mb-12"></div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {Object.entries(skills).map(([category, skillList]) => (
+            <div key={category} className="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700">
+              <h3 className="text-lg sm:text-xl font-bold text-indigo-400 mb-6 text-center">{category}</h3>
+              <div className="space-y-4">
+                {skillList.map((skill, index) => (
+                  <div key={index} className="group">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-gray-300 font-medium text-sm">{skill.name}</span>
+                      <span className="text-indigo-400 text-sm font-bold">{skill.level}%</span>
+                    </div>
+                    <div className="w-full bg-gray-700 rounded-full h-2.5">
+                      <div 
+                        className="bg-gradient-to-r from-indigo-500 to-cyan-400 h-2.5 rounded-full transition-all duration-1000 ease-out group-hover:from-indigo-400 group-hover:to-cyan-300"
+                        style={{ width: `${skill.level}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Certificates Section */}
+        <div className="mt-16">
+          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4 text-white">Certifications</h2>
+          <div className="w-16 h-1 bg-indigo-500 mx-auto mb-8"></div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-indigo-500/30 hover:border-indigo-500 transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-indigo-400 mb-2">5-Day AI Agents Intensive Course</h3>
+              <p className="text-gray-300 mb-2">Kaggle with Google • Certificate of Completion</p>
+              <p className="text-gray-400 text-sm">Issued 2025</p>
+            </div>
+
+            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-cyan-500/30 hover:border-cyan-500 transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-cyan-400 mb-2">Deep Agents with LangGraph</h3>
+              <p className="text-gray-300 mb-2">LangChain Academy • Certificate of Completion</p>
+              <p className="text-gray-400 text-sm">Issued September 2025</p>
+            </div>
+
+            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-purple-500/30 hover:border-purple-500 transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-purple-400 mb-2">End-to-End Machine Learning on Vertex AI</h3>
+              <p className="text-gray-300 mb-2">Certificate of Participation</p>
+              <p className="text-gray-400 text-sm">Issued 2025</p>
+            </div>
+
+            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-green-500/30 hover:border-green-500 transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-green-400 mb-2">Blockchain Basics</h3>
+              <p className="text-gray-300 mb-2">Cyfrin Updraft • Certification</p>
+              <p className="text-gray-400 text-sm">Issued 2025</p>
+            </div>
+
+            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-blue-500/30 hover:border-blue-500 transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-blue-400 mb-2">JavaScript Specialist Certification</h3>
+              <p className="text-gray-300 mb-2">HackerRank</p>
+              <p className="text-gray-400 text-sm">Issued August 2023</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ProjectsSection = () => {
+  const projects = [
+    {
+      title: "Node.js Order & User Management Platform",
+      description: "Built a scalable RESTful backend featuring normalized schemas and indexed queries, achieving a 30% reduction in query latency. Enhanced read performance using Redis caching and implemented secure JWT-based authentication with RBAC.",
+      technologies: ["Node.js", "Express.js", "PostgreSQL", "Sequelize", "Redis", "JWT", "AWS", "Docker"],
+      metrics: "30% reduction in query latency",
+      status: "Completed"
+    },
+    {
+      title: "AI-Powered Sales CRM Platform",
+      description: "Built a scalable full-stack CRM platform for managing leads, contacts, and sales pipelines. Designed optimized RESTful APIs with PostgreSQL and Prisma ORM, improving data efficiency. Implemented real-time notifications using WebSockets.",
+      technologies: ["Next.js", "React.js", "Node.js", "Express.js", "PostgreSQL", "Prisma", "Redis", "WebSockets", "AWS", "Docker"],
+      metrics: "Enhanced performance with Redis caching",
+      status: "Completed"
+    },
+    {
+      title: "Enterprise Project Management Platform",
+      description: "Built a scalable project management platform enabling real-time team collaboration. Implemented event-driven architecture using Kafka for service communication and reduced API response time by 30% through query optimization.",
+      technologies: ["React.js", "Node.js", "Express.js", "PostgreSQL", "Kafka", "AWS", "Docker", "JWT"],
+      metrics: "30% reduction in API response time",
+      status: "Completed"
+    },
+    {
+      title: "AI-Powered Customer Support & Ticketing System",
+      description: "Developed a scalable ticketing and support system for managing customer workflows. Implemented priority-based ticket routing and automation workflows with Kafka for asynchronous processing.",
+      technologies: ["React.js", "Node.js", "Express.js", "PostgreSQL", "Kafka", "WebSockets"],
+      metrics: "High-throughput asynchronous processing",
+      status: "Completed"
+    }
+  ];
+
+  return (
+    <section id="projects" className="min-h-screen py-16 px-4 mx-5 bg-gray-800">
+      <div className="container mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4 text-white">Key Projects</h2>
+        <div className="w-20 h-1 bg-indigo-500 mx-auto mb-12"></div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6">
+          {projects.map((project, index) => (
+            <div 
+              key={index} 
+              className="bg-gray-700 rounded-xl overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border border-gray-600 flex flex-col group"
+            >
+              <div className="p-6 flex-grow">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-indigo-400 transition-colors">{project.title}</h3>
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                    project.status === "Completed" 
+                      ? "bg-teal-900 text-teal-300" 
+                      : "bg-indigo-900 text-indigo-300"
+                  }`}>
+                    {project.status}
+                  </span>
+                </div>
+                
+                <p className="text-gray-300 mb-4 leading-relaxed text-sm sm:text-base">{project.description}</p>
+                
+                <div className="mb-4">
+                  <p className="text-gray-400 text-sm font-medium mb-2">Key Metric:</p>
+                  <p className="text-teal-400 text-sm font-semibold">{project.metrics}</p>
+                </div>
+                
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.technologies.map((tech, techIndex) => (
+                    <span 
+                      key={techIndex} 
+                      className="px-2 py-1 bg-gray-600 text-gray-200 rounded-full text-xs hover:bg-indigo-600 transition-colors"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ExperienceSection = () => {
+  const experiences = [
+    {
+      role: "Software Engineer",
+      company: "Profiles Systems Pvt. Ltd.",
+      location: "Ujjain, India",
+      period: "Jan 2022 – Aug 2025",
+      duration: "3.8 years",
+      description: "Designed and delivered scalable backend and full-stack systems supporting 15,000+ users and 5,000+ daily transactions.",
+      achievements: [
+        "Built and optimized RESTful APIs using Node.js (Express.js) and integrated GraphQL services, reducing latency by 40%",
+        "Developed high-performance microservices and event-driven systems, improving system efficiency by 35%",
+        "Implemented JWT-based authentication and authorization across distributed services",
+        "Developed dynamic and responsive frontend applications using React.js, improving UX and performance",
+        "Integrated Kafka and asynchronous processing for real-time workflows and messaging",
+        "Deployed and managed production systems on AWS using Docker and CI/CD, achieving 99.95% uptime"
+      ],
+      technologies: [
+        "Node.js", "Express.js", "React.js", "GraphQL", "Kafka", "Socket.io", "RabbitMQ",
+        "PostgreSQL", "MongoDB", "AWS", "Docker", "CI/CD", "JWT", "REST APIs", "Microservices"
+      ]
+    }
+  ];
+
+  return (
+    <section id="experience" className="min-h-screen py-16 px-4 bg-gray-900">
+      <div className="container mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4 text-white">Professional Experience</h2>
+        <div className="w-20 h-1 bg-indigo-500 mx-auto mb-12"></div>
+        
+        <div className="space-y-8">
+          {experiences.map((exp, index) => (
+            <div key={index} className="bg-gray-800 p-6 sm:p-8 rounded-xl shadow-lg border border-gray-700 hover:border-indigo-500/50 transition-colors">
+              <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-6">
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-white">{exp.role}</h3>
+                  <p className="text-indigo-400 text-base sm:text-lg font-medium mt-1">{exp.company}</p>
+                  <p className="text-gray-400 mt-1">{exp.location}</p>
+                  <p className="text-gray-300 text-sm mt-1">{exp.duration} experience</p>
+                </div>
+                <span className="text-indigo-300 bg-indigo-900/50 px-4 py-2 rounded-full text-sm font-medium mt-2 lg:mt-0 border border-indigo-500/30">
+                  {exp.period}
+                </span>
+              </div>
+              
+              <p className="text-gray-300 mb-6 italic text-base sm:text-lg">{exp.description}</p>
+              
+              <div className="mb-6">
+                <h4 className="text-base sm:text-lg font-semibold text-indigo-400 mb-3">Key Achievements:</h4>
+                <ul className="list-disc list-inside text-gray-300 space-y-2 text-sm sm:text-base">
+                  {exp.achievements.map((achievement, achievementIndex) => (
+                    <li key={achievementIndex} className="leading-relaxed">{achievement}</li>
+                  ))}
+                </ul>
+              </div>
+              
+              <div>
+                <h4 className="text-base sm:text-lg font-semibold text-indigo-400 mb-3">Technologies Used:</h4>
+                <div className="flex flex-wrap gap-2">
+                  {exp.technologies.map((tech, techIndex) => (
+                    <span 
+                      key={techIndex} 
+                      className="px-3 py-1 bg-gray-700 text-gray-300 rounded-full text-sm hover:bg-indigo-600 transition-colors"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Education Section */}
+        <div className="mt-16">
+          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4 text-white">Education</h2>
+          <div className="w-16 h-1 bg-indigo-500 mx-auto mb-8"></div>
+          
+          <div className="bg-gray-800 p-6 sm:p-8 rounded-xl shadow-lg border border-gray-700 max-w-2xl mx-auto hover:border-indigo-500/50 transition-colors">
+            <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start">
+              <div>
+                <h3 className="text-lg sm:text-xl font-bold text-white">B.Tech in Computer Science</h3>
+                <p className="text-indigo-400 font-medium mt-1">Shri Guru Sandipani Institute of Technology</p>
+                <p className="text-gray-400 mt-1">Ujjain, India</p>
+              </div>
+              <div className="mt-2 lg:mt-0 lg:text-right">
+                <span className="text-indigo-300 bg-indigo-900/50 px-3 py-1 rounded-full text-sm font-medium border border-indigo-500/30">
+                  Graduated 2023
+                </span>
+                <p className="text-white font-semibold mt-2">CGPA: 7.6/10</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ContactSection = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [feedbackType, setFeedbackType] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.name || !formData.email || !formData.message) {
+      setFeedbackMessage('Please fill in all fields.');
+      setFeedbackType('error');
+      return;
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(formData.email)) {
+      setFeedbackMessage('Please enter a valid email address.');
+      setFeedbackType('error');
+      return;
+    }
+
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      setFeedbackMessage('EmailJS configuration is missing. Please try again later.');
+      setFeedbackType('error');
+      return;
+    }
+
+    emailjs.send(serviceId, templateId, formData, publicKey)
+      .then((result) => {
+        setFeedbackMessage('Message Sent Successfully!');
+        setFeedbackType('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => {
+          setFeedbackMessage('');
+          setFeedbackType('');
+        }, 5000);
+      }, (error) => {
+        setFeedbackMessage('Failed to send message. Please try again.');
+        setFeedbackType('error');
+        setTimeout(() => {
+          setFeedbackMessage('');
+          setFeedbackType('');
+        }, 5000);
+      });
+  };
+
+  return (
+    <section id="contact" className="min-h-screen py-16 px-4 bg-gray-800">
+      <div className="container mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4 text-white">Get In Touch</h2>
+        <div className="w-20 h-1 bg-indigo-500 mx-auto mb-12"></div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="space-y-6">
+            <h3 className="text-xl sm:text-2xl text-indigo-400 font-semibold">Let's work together</h3>
+            <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
+              I'm currently available for freelance work and open to new opportunities. 
+              If you have a project that you want to get started or think you need my help 
+              with something, then get in touch.
+            </p>
+            
+            <div className="space-y-4 pt-4">
+              <div className="flex items-center space-x-4">
+                <div className="h-12 w-12 bg-gradient-to-r from-indigo-600 to-teal-500 rounded-full flex items-center justify-center shadow-lg">
+                  <AiOutlineMail className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <p className="text-gray-400">Email</p>
+                  <a href="mailto:pratik.raut9115@gmail.com" className="text-white hover:text-indigo-400 transition-colors">pratik.raut9115@gmail.com</a>
+                </div>
+              </div>
+              
+              <div className="flex items-center space-x-4">
+                <div className="h-12 w-12 bg-gradient-to-r from-indigo-600 to-teal-500 rounded-full flex items-center justify-center shadow-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-gray-400">Phone</p>
+                  <a href="tel:+919111502449" className="text-white hover:text-indigo-400 transition-colors">+91-9111502449</a>
+                </div>
+              </div>
+              
+              <div className="flex items-center space-x-4">
+                <div className="h-12 w-12 bg-gradient-to-r from-indigo-600 to-teal-500 rounded-full flex items-center justify-center shadow-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-gray-400">Location</p>
+                  <p className="text-white">Ujjain, Madhya Pradesh, India</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-6">
+              <p className="text-gray-400 mb-4 font-medium">Connect with me:</p>
+              <div className="flex space-x-4 flex-wrap gap-3">
+                {[
+                  { icon: <FaGithub />, link: "https://github.com/pratikdevelop", label: "GitHub" },
+                  { icon: <FaLinkedinIn />, link: "https://www.linkedin.com/in/pratik-raut-39b631227/", label: "LinkedIn" },
+                  { icon: <FaKaggle />, link: "https://www.kaggle.com/pratik222", label: "Kaggle" },
+                  { icon: <FaDev />, link: "https://dev.to/raut45", label: "Dev Community" },
+                  { icon: <FaBitbucket />, link: "https://bitbucket.org/pratik_5678/workspace/overview/", label: "Bitbucket" },
+                  { icon: <FaHackerrank />, link: "https://www.hackerrank.com/profile/pratikraut88895", label: "HackerRank" }
+                ].map((social, index) => (
+                  <a
+                    key={index}
+                    href={social.link}
+                    className="p-3 bg-gray-700 rounded-lg hover:bg-indigo-600 transition-colors text-white shadow-lg"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                  >
+                    {social.icon}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-gray-700 p-6 sm:p-8 rounded-xl shadow-lg border border-gray-600">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="name" className="block text-gray-300 mb-2 font-medium">Full Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-gray-600 border border-gray-500 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
+                  required
+                  placeholder="Your full name"
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="email" className="block text-gray-300 mb-2 font-medium">Email Address</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-gray-600 border border-gray-500 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
+                  required
+                  placeholder="your.email@example.com"
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="message" className="block text-gray-300 mb-2 font-medium">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows={6}
+                  className="w-full px-4 py-3 bg-gray-600 border border-gray-500 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
+                  required
+                  placeholder="Tell me about your project or inquiry..."
+                ></textarea>
+              </div>
+              
+              <button
+                type="submit"
+                className="w-full px-4 py-3 bg-gradient-to-r from-indigo-600 to-teal-500 text-white rounded-lg hover:from-indigo-700 hover:to-teal-600 transition-colors shadow-lg font-medium"
+              >
+                Send Message
+              </button>
+            </form>
+            {feedbackMessage && (
+              <p className={`text-center mt-4 ${feedbackType === 'success' ? 'text-green-500' : 'text-red-500'}`}>
+                {feedbackMessage}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Footer = () => {
+  return (
+    <footer className="bg-gray-900 py-8 text-center text-gray-400 border-t border-gray-700">
+      <div className="container mx-auto">
+        <div className="flex justify-center space-x-6 mb-6">
+          {[
+            { icon: <FaGithub />, link: "https://github.com/pratikdevelop" },
+            { icon: <FaLinkedinIn />, link: "https://www.linkedin.com/in/pratik-raut-39b631227/" },
+            { icon: <FaKaggle />, link: "https://www.kaggle.com/pratik222" },
+            { icon: <FaDev />, link: "https://dev.to/raut45" },
+            { icon: <FaBitbucket />, link: "https://bitbucket.org/pratik_5678/workspace/overview/" },
+            { icon: <FaHackerrank />, link: "https://www.hackerrank.com/profile/pratikraut88895" },
+            { icon: <AiOutlineMail />, link: "mailto:pratik.raut9115@gmail.com" }
+          ].map((social, index) => (
+            <a
+              key={index}
+              href={social.link}
+              className="text-gray-400 hover:text-white transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {social.icon}
+            </a>
+          ))}
+        </div>
+        <p className="text-sm">© {new Date().getFullYear()} Pratik Raut. All rights reserved.</p>
+        <p className="text-sm mt-2 text-gray-500">Full Stack Developer | Node.js | React.js</p>
+        <p className="text-xs mt-2 text-gray-600">Designed and developed with ❤️ using Next.js & Tailwind CSS</p>
+      </div>
+    </footer>
+  );
+};
+
+export default Portfolio;
