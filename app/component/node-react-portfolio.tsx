@@ -195,7 +195,7 @@ const HomeSection = ({ onDownloadCV }: { onDownloadCV: () => void }) => {
               { icon: <FaGithub />, link: "https://github.com/pratikdevelop", label: "GitHub" },
               { icon: <FaLinkedinIn />, link: "https://www.linkedin.com/in/pratik-raut-39b631227/", label: "LinkedIn" },
               { icon: <FaKaggle />, link: "https://www.kaggle.com/pratik222", label: "Kaggle" },
-              { icon: <FaDev />, link: "https://dev.to/raut45", label: "Dev Community" },
+              { icon: <FaDev />, link: "https://dev.to/pratik_12b3f8bf3b50e48bae", label: "Dev Community" },
               { icon: <FaBitbucket />, link: "https://bitbucket.org/pratik_5678/workspace/overview/", label: "Bitbucket" },
               { icon: <FaHackerrank />, link: "https://www.hackerrank.com/profile/pratikraut88895", label: "HackerRank" }
             ].map((social, index) => (
