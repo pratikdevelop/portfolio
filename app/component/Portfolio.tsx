@@ -162,7 +162,7 @@ const HomeSection = ({ onDownloadCV }: { onDownloadCV: () => void }) => {
         <div className="space-y-6 animate-fade-in">
           <div className="text-xl text-indigo-400 font-medium">Hello, I'm</div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white">Pratik Raut</h1>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl text-indigo-400 font-semibold">Full-Stack Software Engineer & Gen AI Developer</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl text-indigo-400 font-semibold"> Full Stack Software Engineer | AI/GenAI | Backend Systems</h2>
           <p className="text-gray-300 max-w-md leading-relaxed text-base sm:text-lg">
             Dynamic Full-Stack Developer with 3+ years of hands-on experience, including 1-year internship and 2+ years full-time at Profilics Systems Pvt. Ltd. Expertise in crafting scalable user-centric web applications using React, Angular, Node.js, Django, and emerging stacks like Golang (Gin) and Python (FastAPI). Specialized in AI-driven features, performance optimization, and delivering innovative solutions that boost user engagement by up to 40%.
           </p>

@@ -1,17 +1,29 @@
 'use client'
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { AiOutlineClose, AiOutlineMail, AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineMail } from "react-icons/ai";
 import { FaGithub, FaLinkedinIn, FaKaggle, FaDev, FaBitbucket, FaHackerrank } from 'react-icons/fa';
-import { BsFillFilePersonFill, BsDownload } from 'react-icons/bs';
-import Image from "next/image";
+import { BsDownload } from 'react-icons/bs';
 import emailjs from '@emailjs/browser';
+import { motion, MotionConfig, useScroll } from 'framer-motion';
+import { HeroBackground, Avatar3D, SectionBackdrop } from './three';
+import { Reveal, RevealGroup, RevealItem, SectionTitle } from './motion/Reveal';
+
+const NAV_ITEMS = ["home", "about", "skills", "projects", "experience", "contact"];
+
+const SOCIAL_LINKS = [
+  { icon: <FaGithub />, link: "https://github.com/pratikdevelop", label: "GitHub" },
+  { icon: <FaLinkedinIn />, link: "https://www.linkedin.com/in/pratik-raut-39b631227/", label: "LinkedIn" },
+  { icon: <FaKaggle />, link: "https://www.kaggle.com/pratik222", label: "Kaggle" },
+  { icon: <FaDev />, link: "https://dev.to/pratik_12b3f8bf3b50e48bae", label: "Dev Community" },
+  { icon: <FaBitbucket />, link: "https://bitbucket.org/pratik_5678/workspace/overview/", label: "Bitbucket" },
+  { icon: <FaHackerrank />, link: "https://www.hackerrank.com/profile/pratikraut88895", label: "HackerRank" }
+];
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [nav, setNav] = useState(false);
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,13 +40,10 @@ const Portfolio = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (sectionId: any) => {
+  const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
-      window.scrollTo({
-        top: section.offsetTop,
-        behavior: "smooth"
-      });
+      window.scrollTo({ top: section.offsetTop, behavior: "smooth" });
       setActiveSection(sectionId);
       setIsMenuOpen(false);
     }
@@ -43,184 +52,388 @@ const Portfolio = () => {
   const handleDownloadPDF = () => {
     const link = document.createElement('a');
     link.href = '/Pratik_Raut_Full_Stack_Developer_Nodejs_React.pdf';
-    link.download = 'Pratik_Raut_Full_Stack_Developer_Nodejs_React.pdf';
+    link.download = 'Pratik_Raut_Full_Stack_MERN_Resume.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
-      {/* Navigation */}
-      <nav className="fixed w-full bg-gray-900/95 backdrop-blur-sm z-40 shadow-lg border-b border-gray-700">
-        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <div className="text-2xl font-bold text-indigo-400">Pratik Raut</div>
-          
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-4 items-center">
-            {["home", "about", "skills", "projects", "experience", "contact"].map((item) => (
-              <button
-                key={item}
-                onClick={() => scrollToSection(item)}
-                className={`px-3 py-2 rounded-lg transition-all duration-300 ${
-                  activeSection === item
-                    ? "bg-indigo-600 text-white shadow-lg"
-                    : "text-gray-300 hover:text-white hover:bg-gray-800"
-                }`}
-              >
-                {item.charAt(0).toUpperCase() + item.slice(1)}
-              </button>
-            ))}
+    <MotionConfig reducedMotion="user">
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+        {/* Navigation */}
+        <nav className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-gray-900/70 backdrop-blur-xl">
+          <motion.div
+            aria-hidden="true"
+            className="h-px origin-left bg-gradient-to-r from-accent-500 via-accent-400 to-highlight-400"
+            style={{ scaleX: scrollYProgress }}
+          />
+
+          <div className="page-container flex h-16 items-center justify-between gap-4">
             <button
-              onClick={handleDownloadPDF}
-              className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors flex items-center space-x-2 shadow-lg"
+              onClick={() => scrollToSection("home")}
+              className="flex items-center gap-3 text-left"
+              aria-label="Back to top"
             >
-              <BsDownload className="w-4 h-4" />
-              <span>Download CV</span>
+              <span className="grid h-9 w-9 place-items-center rounded-xl border border-accent-400/30 bg-accent-400/10 font-display text-sm font-bold text-accent-300">
+                PR
+              </span>
+              <span className="hidden leading-tight sm:block">
+                <span className="block font-display text-base font-semibold text-white">Pratik Raut</span>
+                <span className="block font-mono text-[10px] uppercase tracking-[0.18em] text-gray-500">Full Stack Developer</span>
+              </span>
             </button>
-          </div>
-          
-          {/* Mobile Menu Button */}
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={handleDownloadPDF}
-              className="px-3 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors flex items-center space-x-2 md:hidden shadow-lg"
-            >
-              <BsDownload className="w-4 h-4" />
-            </button>
-            <button
-              className="md:hidden text-white focus:outline-none"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {isMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
-          </div>
-        </div>
-        
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-gray-800/95 backdrop-blur-sm py-4 border-b border-gray-700">
-            <div className="container mx-auto px-4 flex flex-col space-y-3">
-              {["home", "about", "skills", "projects", "experience", "contact"].map((item) => (
+
+            {/* Desktop Navigation */}
+            <div className="hidden items-center gap-1 md:flex">
+              {NAV_ITEMS.map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item)}
-                  className={`px-3 py-2 rounded-lg transition-all duration-300 ${
-                    activeSection === item
-                      ? "bg-indigo-600 text-white shadow-lg"
-                      : "text-gray-300 hover:text-white hover:bg-gray-700"
-                  }`}
+                  className={`nav-link ${activeSection === item ? "nav-link-active" : ""}`}
                 >
-                  {item.charAt(0).toUpperCase() + item.slice(1)}
+                  {item}
                 </button>
               ))}
-              <button
-                onClick={handleDownloadPDF}
-                className="px-3 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors flex items-center space-x-2 justify-center shadow-lg"
-              >
-                <BsDownload className="w-4 h-4" />
+              <button onClick={handleDownloadPDF} className="btn btn-primary ml-3 !px-4 !py-2 !text-xs">
+                <BsDownload className="h-3.5 w-3.5" />
                 <span>Download CV</span>
               </button>
             </div>
-          </div>
-        )}
-      </nav>
 
-      {/* Home Section */}
-      <HomeSection onDownloadCV={handleDownloadPDF} />
-
-      {/* About Section */}
-      <AboutSection />
-
-      {/* Skills Section */}
-      <SkillsSection />
-
-      {/* Projects Section */}
-      <ProjectsSection />
-
-      {/* Experience Section */}
-      <ExperienceSection />
-
-      {/* Contact Section */}
-      <ContactSection />
-
-      {/* Footer */}
-      <Footer />
-    </div>
-  );
-};
-
-const HomeSection = ({ onDownloadCV }: { onDownloadCV: () => void }) => {
-  return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-20 pb-16 px-4">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <div className="space-y-6 animate-fade-in">
-          <div className="text-xl text-indigo-400 font-medium">Hello, I'm</div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white">Pratik Raut</h1>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl text-indigo-400 font-semibold">Full Stack Developer</h2>
-          <p className="text-gray-300 max-w-md leading-relaxed text-base sm:text-lg">
-            Full Stack Developer with 3.8 years of experience building scalable, high-performance web applications using Node.js and React.js. Expert in designing REST APIs, microservices, and real-time systems with a strong focus on performance, scalability, and clean architecture.
-          </p>
-          <div className="flex space-x-4 pt-4 flex-wrap gap-3">
-            <button 
-              onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
-              className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-lg font-medium"
-            >
-              View My Work
-            </button>
-            <button 
-              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-              className="px-6 py-3 border border-indigo-500 text-indigo-400 rounded-lg hover:bg-indigo-900/30 transition-colors font-medium"
-            >
-              Contact Me
-            </button>
-            <button 
-              onClick={onDownloadCV}
-              className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors flex items-center space-x-2 shadow-lg font-medium"
-            >
-              <BsDownload className="w-4 h-4" />
-              <span>Download CV</span>
-            </button>
-          </div>
-          
-          {/* Social Links */}
-          <div className="flex space-x-4 pt-6 flex-wrap gap-3">
-            {[
-              { icon: <FaGithub />, link: "https://github.com/pratikdevelop", label: "GitHub" },
-              { icon: <FaLinkedinIn />, link: "https://www.linkedin.com/in/pratik-raut-39b631227/", label: "LinkedIn" },
-              { icon: <FaKaggle />, link: "https://www.kaggle.com/pratik222", label: "Kaggle" },
-              { icon: <FaDev />, link: "https://dev.to/pratik_12b3f8bf3b50e48bae", label: "Dev Community" },
-              { icon: <FaBitbucket />, link: "https://bitbucket.org/pratik_5678/workspace/overview/", label: "Bitbucket" },
-              { icon: <FaHackerrank />, link: "https://www.hackerrank.com/profile/pratikraut88895", label: "HackerRank" }
-            ].map((social, index) => (
-              <a
-                key={index}
-                href={social.link}
-                className="p-3 bg-gray-800 rounded-lg hover:bg-indigo-600 transition-colors text-white shadow-lg"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={social.label}
+            {/* Mobile Actions */}
+            <div className="flex items-center gap-2 md:hidden">
+              <button onClick={handleDownloadPDF} className="icon-btn !h-9 !w-9" aria-label="Download CV">
+                <BsDownload className="h-4 w-4" />
+              </button>
+              <button
+                className="icon-btn !h-9 !w-9"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-expanded={isMenuOpen}
+                aria-label="Toggle menu"
               >
-                {social.icon}
-              </a>
-            ))}
-          </div>
-        </div>
-        
-        <div className="flex justify-center animate-float">
-          <div className="relative">
-            <div className="absolute -inset-4 bg-gradient-to-r from-indigo-600 to-teal-500 rounded-full blur-lg opacity-20 animate-pulse"></div>
-            <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 bg-gradient-to-br from-indigo-700 to-teal-600 rounded-full flex items-center justify-center text-white text-5xl sm:text-6xl font-bold shadow-2xl border-4 border-indigo-400/20">
-              PR
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  {isMenuOpen ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                  )}
+                </svg>
+              </button>
             </div>
           </div>
-        </div>
+
+          {/* Mobile Navigation */}
+          {isMenuOpen && (
+            <div className="border-b border-white/10 bg-gray-900/95 backdrop-blur-xl md:hidden">
+              <div className="page-container flex flex-col gap-1 py-4">
+                {NAV_ITEMS.map((item) => (
+                  <button
+                    key={item}
+                    onClick={() => scrollToSection(item)}
+                    className={`w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors ${
+                      activeSection === item
+                        ? "bg-accent-400/10 text-accent-300"
+                        : "text-gray-400 hover:bg-white/5 hover:text-white"
+                    }`}
+                  >
+                    {item}
+                  </button>
+                ))}
+                <button onClick={handleDownloadPDF} className="btn btn-primary mt-2 w-full">
+                  <BsDownload className="h-4 w-4" />
+                  <span>Download CV</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </nav>
+
+        <HomeSection onDownloadCV={handleDownloadPDF} />
+        <AboutSection />
+        <SkillsSection />
+        <ProjectsSection />
+        <ExperienceSection />
+        <ContactSection />
+        <Footer />
+      </div>
+    </MotionConfig>
+  );
+};
+const HomeSection = ({ onDownloadCV }: { onDownloadCV: () => void }) => {
+  const targetRoles = [
+    "Full Stack Engineer",
+    "Backend Engineer",
+    "AI/GenAI Engineer",
+    "AI Application Engineer",
+    "Forward Deployed Engineer",
+    "React / Node.js Developer",
+    "Python Backend Engineer",
+  ];
+
+  return (
+    <section
+      id="home"
+      className="relative flex min-h-screen items-center overflow-hidden px-4 pb-20 pt-28"
+    >
+      <HeroBackground className="absolute inset-0 z-0" />
+
+      <div className="page-container relative z-10 grid grid-cols-1 items-center gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
+        {/* LEFT CONTENT */}
+        <RevealGroup className="space-y-6" stagger={0.1}>
+          <RevealItem y={20}>
+            <span className="eyebrow inline-flex items-center gap-2.5">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-400 opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-400" />
+              </span>
+              Hello, I&apos;m
+            </span>
+          </RevealItem>
+
+          <RevealItem y={28}>
+            <h1 className="text-gradient text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
+              Pratik Raut
+            </h1>
+          </RevealItem>
+
+          <RevealItem y={28}>
+            <h2 className="max-w-3xl font-display text-2xl font-medium leading-tight tracking-tight text-accent-300 sm:text-3xl md:text-4xl">
+              Full Stack Software Engineer{" "}
+              <span className="text-gray-500">|</span> AI/GenAI{" "}
+              <span className="text-gray-500">|</span> Backend Systems
+            </h2>
+          </RevealItem>
+
+          <RevealItem y={20}>
+            <div className="flex flex-wrap gap-x-3 gap-y-2 font-mono text-xs uppercase tracking-[0.14em] text-gray-500 sm:text-sm">
+              <span>MERN</span>
+              <span>/</span>
+              <span>React</span>
+              <span>/</span>
+              <span>Node.js</span>
+              <span>/</span>
+              <span>Python</span>
+              <span>/</span>
+              <span>AI &amp; LLM</span>
+              <span>/</span>
+              <span>Distributed Systems</span>
+            </div>
+          </RevealItem>
+
+          <RevealItem y={24}>
+            <p className="max-w-2xl text-base leading-relaxed text-gray-400 sm:text-lg">
+              Full Stack Software Engineer with 3.8 years of professional
+              experience building production-ready web applications, backend
+              services, and AI-powered solutions using React.js, Node.js,
+              TypeScript, Python, PostgreSQL, and MongoDB.
+            </p>
+          </RevealItem>
+
+          <RevealItem y={20}>
+            <p className="max-w-2xl text-sm leading-relaxed text-gray-500 sm:text-base">
+              Strong hands-on experience in REST APIs, authentication/RBAC,
+              system design, real-time systems, Redis, Kafka, WebSockets,
+              Docker, AWS, event-driven architecture, and AI/GenAI
+              applications using RAG, embeddings, LangChain, LangGraph, LLM
+              APIs, tool calling, and AI agents.
+            </p>
+          </RevealItem>
+
+          {/* CORE STRENGTHS */}
+          <RevealItem y={20}>
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm">
+              <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-accent-300">
+                Core Strengths
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "Full Stack Engineering",
+                  "Backend Engineering",
+                  "AI / GenAI Applications",
+                  "API & System Design",
+                  "Real-Time Systems",
+                  "Event-Driven Architecture",
+                  "Cloud & Deployment",
+                  "Technical Integration",
+                ].map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-gray-300"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </RevealItem>
+
+          {/* AVAILABILITY */}
+          <RevealItem y={20}>
+            <div className="flex flex-col gap-3 rounded-2xl border border-accent-400/25 bg-accent-400/[0.07] px-5 py-4 sm:flex-row sm:items-center sm:gap-4">
+              <span className="inline-flex shrink-0 items-center gap-2 rounded-full border border-accent-400/30 bg-accent-400/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-accent-300">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-400 opacity-70" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent-400" />
+                </span>
+                Available
+              </span>
+
+              <p className="text-sm text-gray-300">
+                Open to full-time software engineering opportunities with
+                immediate joining.
+              </p>
+            </div>
+          </RevealItem>
+
+          {/* TARGET ROLES */}
+          <RevealItem y={20}>
+            <div>
+              <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-gray-500">
+                Open to roles
+              </p>
+
+              <div className="flex max-w-2xl flex-wrap gap-2">
+                {targetRoles.map((role) => (
+                  <span
+                    key={role}
+                    className="rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-xs text-gray-400 transition-colors hover:border-accent-400/30 hover:text-accent-300"
+                  >
+                    {role}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </RevealItem>
+
+          {/* ACTIONS */}
+          <RevealItem y={24}>
+            <div className="flex flex-wrap gap-3 pt-2">
+              <button
+                onClick={() =>
+                  document
+                    .getElementById("projects")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+                className="btn btn-primary"
+              >
+                View My Work
+              </button>
+
+              <button
+                onClick={() =>
+                  document
+                    .getElementById("contact")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+                className="btn btn-ghost"
+              >
+                Contact Me
+              </button>
+
+              <button onClick={onDownloadCV} className="btn btn-ghost">
+                <BsDownload className="h-4 w-4" />
+                <span>Download CV</span>
+              </button>
+            </div>
+          </RevealItem>
+
+          {/* SOCIAL LINKS */}
+          <RevealItem y={20}>
+            <div className="flex flex-wrap gap-3 pt-3">
+              {SOCIAL_LINKS.map((social, index) => (
+                <motion.a
+                  key={index}
+                  href={social.link}
+                  whileHover={{ y: -5 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 18,
+                  }}
+                  className="icon-btn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                >
+                  {social.icon}
+                </motion.a>
+              ))}
+            </div>
+          </RevealItem>
+        </RevealGroup>
+
+        {/* RIGHT / PROFILE */}
+        <Reveal
+          className="flex justify-center lg:justify-end"
+          y={40}
+          duration={0.9}
+          amount={0.1}
+        >
+          <div className="relative">
+            {/* Glow */}
+            <div className="absolute -inset-10 rounded-[3rem] bg-gradient-to-br from-accent-400 via-highlight-400 to-accent-500 opacity-20 blur-3xl animate-pulse-ring" />
+
+            {/* Tech ring */}
+            <div className="absolute -inset-4 rounded-[2.5rem] border border-accent-400/10" />
+            <div className="absolute -inset-7 rounded-[3rem] border border-accent-400/5" />
+
+            {/* Corner brackets */}
+            {[
+              "left-0 top-0 border-l-2 border-t-2 rounded-tl-2xl",
+              "right-0 top-0 border-r-2 border-t-2 rounded-tr-2xl",
+              "left-0 bottom-0 border-l-2 border-b-2 rounded-bl-2xl",
+              "right-0 bottom-0 border-r-2 border-b-2 rounded-br-2xl",
+            ].map((pos) => (
+              <span
+                key={pos}
+                aria-hidden="true"
+                className={`pointer-events-none absolute h-9 w-9 border-accent-400/50 ${pos}`}
+              />
+            ))}
+
+            {/* Avatar */}
+            <Avatar3D className="relative h-64 w-64 sm:h-80 sm:w-80 md:h-96 md:w-96" />
+
+            {/* Floating tech labels */}
+            <motion.div
+              animate={{ y: [0, -8, 0] }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="absolute -left-5 top-10 rounded-xl border border-white/10 bg-black/40 px-3 py-2 font-mono text-[10px] uppercase tracking-wider text-accent-300 backdrop-blur-md"
+            >
+              React / Node
+            </motion.div>
+
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{
+                duration: 4.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="absolute     -right-5 bottom-16 rounded-xl border border-white/10 bg-black/40 px-3 py-2 font-mono text-[10px] uppercase tracking-wider text-accent-300 backdrop-blur-md"
+            >
+              AI / RAG / Agents
+            </motion.div>
+
+            <motion.div
+              animate={{ x: [0, 5, 0] }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="absolute -bottom-4 left-1/2 -translate-x-1/2 rounded-xl border border-white/10 bg-black/40 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-gray-400 backdrop-blur-md"
+            >
+              Backend · Cloud · Systems
+            </motion.div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -228,93 +441,101 @@ const HomeSection = ({ onDownloadCV }: { onDownloadCV: () => void }) => {
 
 const AboutSection = () => {
   return (
-    <section id="about" className="min-h-screen py-16 px-4 bg-gray-800">
-      <div className="container mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4 text-white">About Me</h2>
-        <div className="w-20 h-1 bg-indigo-500 mx-auto mb-12"></div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <h3 className="text-xl sm:text-2xl text-indigo-400 font-semibold">Professional Summary</h3>
-            <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
-              Full Stack Developer with <strong className="text-indigo-400">3.8 years of experience</strong> building scalable, high-performance web applications using Node.js and React.js. Expert in designing REST APIs, microservices, and real-time systems with a strong focus on performance, scalability, and clean architecture.
-            </p>
-            <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
-              Experienced in <strong className="text-indigo-400">PostgreSQL, MongoDB, AWS, Docker, and CI/CD pipelines</strong>, delivering production-grade systems handling <strong className="text-indigo-400">15,000+ users</strong> and <strong className="text-indigo-400">5,000+ daily transactions</strong>.
-            </p>
-            <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
-              I specialize in building robust backend systems with Node.js, creating responsive frontends with React.js, and implementing event-driven architectures using Kafka and RabbitMQ for real-time workflows.
-            </p>
-            <div className="pt-4 flex space-x-4 flex-wrap gap-3">
-              <a
-                href="#contact"
-                className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors inline-block shadow-lg font-medium"
-              >
-                Get In Touch
-              </a>
-              <a
-                href="#projects"
-                className="px-6 py-3 border border-indigo-500 text-indigo-400 rounded-lg hover:bg-indigo-900/30 transition-colors inline-block font-medium"
-              >
-                View Projects
-              </a>
-            </div>
-          </div>
-          
-          <div className="flex justify-center">
-            <div className="bg-gradient-to-br from-indigo-600 to-teal-500 p-1 rounded-xl shadow-2xl w-full max-w-md">
-              <div className="bg-gray-800 p-6 sm:p-8 rounded-lg h-full">
-                <h3 className="text-xl sm:text-2xl text-indigo-400 mb-6 text-center font-semibold">Personal Details</h3>
-                <div className="space-y-4">
+    <section id="about" className="section-pad bg-gray-800">
+      <SectionBackdrop className="absolute inset-0 z-0" variant="rings" position={[-2.8, -0.4, -1.5]} scale={1.15} opacity={0.16} />
+
+      <div className="page-container relative z-10">
+        <SectionTitle eyebrow="01 — Profile" title="About Me" />
+
+        <div className="grid grid-cols-1 items-start gap-14 lg:grid-cols-2">
+          <RevealGroup className="space-y-6" stagger={0.1}>
+            <RevealItem y={20}>
+              <h3 className="font-display text-xl font-semibold text-accent-300 sm:text-2xl">Professional Summary</h3>
+            </RevealItem>
+            <RevealItem>
+              <p className="leading-relaxed text-gray-400">
+                Full Stack Software Engineer with <strong className="font-semibold text-white">3.8 years of professional experience</strong> building production-ready applications with React.js, Node.js, TypeScript, PostgreSQL, and MongoDB. Experienced in REST APIs, authentication/RBAC, real-time systems, event-driven architecture, and scalable business workflows.
+              </p>
+            </RevealItem>
+            <RevealItem>
+              <p className="leading-relaxed text-gray-400">
+                Strong hands-on experience with <strong className="font-semibold text-white">PostgreSQL, MongoDB, Redis, Kafka, and WebSockets</strong>, along with AWS, Docker, and CI/CD workflows. Contributed to systems supporting <strong className="font-semibold text-accent-300">15,000+ users</strong> and <strong className="font-semibold text-accent-300">5,000+ daily transactions</strong>.
+              </p>
+            </RevealItem>
+            <RevealItem>
+              <p className="leading-relaxed text-gray-400">
+                Alongside full-stack engineering, I build AI/GenAI applications with <strong className="font-semibold text-white">LangChain, LangGraph, RAG, embeddings, LLM APIs, and AI agents</strong>, with a focus on practical business use cases and production-oriented workflows.
+              </p>
+            </RevealItem>
+            <RevealItem y={20}>
+              <div className="flex flex-wrap gap-3 pt-4">
+                <button onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })} className="btn btn-primary">
+                  Get In Touch
+                </button>
+                <button onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })} className="btn btn-ghost">
+                  View Projects
+                </button>
+              </div>
+            </RevealItem>
+          </RevealGroup>
+
+          <Reveal y={36} amount={0.15}>
+            <div className="surface overflow-hidden">
+              <div className="flex items-center gap-3 border-b border-white/10 px-6 py-5 sm:px-8">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent-400" />
+                <h3 className="font-display text-lg font-semibold">Personal Details</h3>
+              </div>
+
+              <div className="px-6 py-6 sm:px-8">
+                <RevealGroup className="space-y-0" stagger={0.05} amount={0.05}>
                   {[
-                    { label: "Full Name:", value: "Pratik Raut" },
-                    { label: "Date of Birth:", value: "April 6, 2001" },
-                    { label: "Location:", value: "Ujjain, Madhya Pradesh, India" },
-                    { label: "Email:", value: "pratik.raut9115@gmail.com", link: true },
-                    { label: "Phone:", value: "+91-9111502449", link: true },
-                    { label: "Experience:", value: "3.8+ Years" }
-                  ].map((item, index) => (
-                    <div key={index} className="flex justify-between border-b border-gray-700 pb-2">
-                      <span className="text-gray-400">{item.label}</span>
+                    { label: "Full Name", value: "Pratik Raut" },
+                    { label: "Location", value: "Ujjain, Madhya Pradesh, India" },
+                    { label: "Email", value: "pratik.raut9115@gmail.com", link: true },
+                    { label: "Phone", value: "+91-9111502449", link: true },
+                    { label: "Experience", value: "3.8 Years" }
+                  ].map((item) => (
+                    <RevealItem
+                      key={item.label}
+                      y={14}
+                      className="flex items-baseline justify-between gap-6 border-b border-white/5 py-3 last:border-0"
+                    >
+                      <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-gray-500">{item.label}</span>
                       {item.link ? (
-                        <a 
-                          href={item.label === "Email:" ? "mailto:pratik.raut9115@gmail.com" : "tel:+919111502449"}
-                          className="text-white hover:text-indigo-400 transition-colors"
+                        <a
+                          href={item.label === "Email" ? "mailto:pratik.raut9115@gmail.com" : "tel:+919111502449"}
+                          className="text-right text-sm font-medium text-white transition-colors hover:text-accent-300"
                         >
                           {item.value}
                         </a>
                       ) : (
-                        <p className="text-white">{item.value}</p>
+                        <span className="text-right text-sm font-medium text-white">{item.value}</span>
                       )}
-                    </div>
+                    </RevealItem>
                   ))}
-                </div>
-                
-                <div className="mt-8">
-                  <h4 className="text-base sm:text-lg text-indigo-400 mb-4 font-semibold">Professional Links</h4>
-                  <div className="grid grid-cols-2 gap-3">
-                    {[
-                      { icon: <FaGithub />, label: "GitHub", link: "https://github.com/pratikdevelop" },
-                      { icon: <FaLinkedinIn />, label: "LinkedIn", link: "https://www.linkedin.com/in/pratik-raut-39b631227/" },
-                      { icon: <FaKaggle />, label: "Kaggle", link: "https://www.kaggle.com/pratik222" },
-                      { icon: <FaDev />, label: "Dev Community", link: "https://dev.to/raut45" }
-                    ].map((social, index) => (
-                      <a 
-                        key={index}
+                </RevealGroup>
+
+                <Reveal className="pt-8" y={20} amount={0.05}>
+                  <h4 className="eyebrow mb-4">Professional Links</h4>
+                  <div className="grid grid-cols-2 gap-2">
+                    {SOCIAL_LINKS.slice(0, 4).map((social) => (
+                      <motion.a
+                        key={social.label}
                         href={social.link}
                         target="_blank"
-                        rel="noopener noreferrer" 
-                        className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors p-2 rounded-lg hover:bg-gray-700"
+                        rel="noopener noreferrer"
+                        whileHover={{ y: -3 }}
+                        className="flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2.5 text-sm text-gray-300 transition-colors hover:border-accent-400/40 hover:text-accent-200"
                       >
                         {social.icon}
-                        <span>{social.label}</span>
-                      </a>
+                        <span className="truncate">{social.label}</span>
+                      </motion.a>
                     ))}
                   </div>
-                </div>
+                </Reveal>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -323,102 +544,66 @@ const AboutSection = () => {
 
 const SkillsSection = () => {
   const skills = {
-    "Frontend": [
-      { name: "React.js", level: 90 },
-      { name: "JavaScript/TypeScript", level: 88 },
-      { name: "HTML5/CSS3", level: 85 },
-      { name: "Redux", level: 80 },
-      { name: "Tailwind CSS/Bootstrap", level: 85 }
-    ],
-    "Backend": [
-      { name: "Node.js/Express.js", level: 90 },
-      { name: "REST APIs", level: 92 },
-      { name: "Microservices", level: 85 },
-      { name: "GraphQL", level: 75 },
-      { name: "Event-Driven Architecture", level: 80 }
-    ],
-    "Databases": [
-      { name: "PostgreSQL", level: 85 },
-      { name: "MongoDB", level: 85 },
-      { name: "MySQL", level: 80 },
-      { name: "Redis", level: 75 },
-      { name: "Prisma/Sequelize", level: 80 }
-    ],
-    "DevOps & Cloud": [
-      { name: "AWS", level: 80 },
-      { name: "Docker", level: 85 },
-      { name: "CI/CD Pipelines", level: 80 },
-      { name: "Git", level: 90 },
-      { name: "Kafka/RabbitMQ", level: 75 }
-    ]
+    "AI & GenAI": ["Generative AI", "LLMs", "LangChain", "LangGraph", "RAG", "Embeddings", "FAISS", "Semantic Search", "AI Agents", "Tool Calling", "LLM APIs", "Ollama"],
+    "Frontend": ["React.js", "Next.js", "Angular", "TypeScript", "JavaScript", "Redux", "Zustand", "React Hooks", "Tailwind CSS", "HTML5 / CSS3"],
+    "Backend & APIs": ["Node.js", "Express.js", "Python", "FastAPI", "Django", "REST APIs", "GraphQL", "Microservices", "WebSockets"],
+    "Data & Messaging": ["PostgreSQL", "MongoDB", "MySQL", "Redis", "Apache Kafka", "RabbitMQ", "Prisma ORM"],
+    "Architecture & Security": ["System Design", "OOP", "DSA", "Event-Driven Architecture", "Distributed Systems", "JWT", "RBAC", "Performance Optimization"],
+    "Cloud & Tools": ["AWS", "Docker", "CI/CD", "Git", "GitHub", "Postman", "Nginx", "Grafana"]
   };
 
   return (
-    <section id="skills" className="min-h-screen py-16 px-4 bg-gray-900">
-      <div className="container mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4 text-white">Technical Skills</h2>
-        <div className="w-20 h-1 bg-indigo-500 mx-auto mb-12"></div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+    <section id="skills" className="section-pad bg-gray-900">
+      <SectionBackdrop className="absolute inset-0 z-0" variant="icosahedron" position={[3, 0.6, -2]} scale={1.1} opacity={0.12} />
+
+      <div className="page-container relative z-10">
+        <SectionTitle eyebrow="02 — Toolkit" title="Technical Skills" />
+
+        <RevealGroup className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" stagger={0.1} amount={0.05}>
           {Object.entries(skills).map(([category, skillList]) => (
-            <div key={category} className="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700">
-              <h3 className="text-lg sm:text-xl font-bold text-indigo-400 mb-6 text-center">{category}</h3>
-              <div className="space-y-4">
-                {skillList.map((skill, index) => (
-                  <div key={index} className="group">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-gray-300 font-medium text-sm">{skill.name}</span>
-                      <span className="text-indigo-400 text-sm font-bold">{skill.level}%</span>
-                    </div>
-                    <div className="w-full bg-gray-700 rounded-full h-2.5">
-                      <div 
-                        className="bg-gradient-to-r from-indigo-500 to-cyan-400 h-2.5 rounded-full transition-all duration-1000 ease-out group-hover:from-indigo-400 group-hover:to-cyan-300"
-                        style={{ width: `${skill.level}%` }}
-                      ></div>
-                    </div>
-                  </div>
+            <RevealItem key={category} className="surface surface-interactive p-6">
+              <div className="mb-5 flex items-center gap-3">
+                <h3 className="font-display text-base font-semibold text-white">{category}</h3>
+                <span className="accent-rule ml-auto" />
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {skillList.map((skill) => (
+                  <motion.span key={skill} whileHover={{ y: -2 }} className="chip">
+                    {skill}
+                  </motion.span>
                 ))}
               </div>
-            </div>
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
 
-        {/* Certificates Section */}
-        <div className="mt-16">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4 text-white">Certifications</h2>
-          <div className="w-16 h-1 bg-indigo-500 mx-auto mb-8"></div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-indigo-500/30 hover:border-indigo-500 transition-colors">
-              <h3 className="text-lg sm:text-xl font-bold text-indigo-400 mb-2">5-Day AI Agents Intensive Course</h3>
-              <p className="text-gray-300 mb-2">Kaggle with Google • Certificate of Completion</p>
-              <p className="text-gray-400 text-sm">Issued 2025</p>
-            </div>
+        <div className="mt-24">
+          <SectionTitle eyebrow="Credentials" title="Certifications" className="mb-12" />
 
-            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-cyan-500/30 hover:border-cyan-500 transition-colors">
-              <h3 className="text-lg sm:text-xl font-bold text-cyan-400 mb-2">Deep Agents with LangGraph</h3>
-              <p className="text-gray-300 mb-2">LangChain Academy • Certificate of Completion</p>
-              <p className="text-gray-400 text-sm">Issued September 2025</p>
-            </div>
-
-            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-purple-500/30 hover:border-purple-500 transition-colors">
-              <h3 className="text-lg sm:text-xl font-bold text-purple-400 mb-2">End-to-End Machine Learning on Vertex AI</h3>
-              <p className="text-gray-300 mb-2">Certificate of Participation</p>
-              <p className="text-gray-400 text-sm">Issued 2025</p>
-            </div>
-
-            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-green-500/30 hover:border-green-500 transition-colors">
-              <h3 className="text-lg sm:text-xl font-bold text-green-400 mb-2">Blockchain Basics</h3>
-              <p className="text-gray-300 mb-2">Cyfrin Updraft • Certification</p>
-              <p className="text-gray-400 text-sm">Issued 2025</p>
-            </div>
-
-            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-blue-500/30 hover:border-blue-500 transition-colors">
-              <h3 className="text-lg sm:text-xl font-bold text-blue-400 mb-2">JavaScript Specialist Certification</h3>
-              <p className="text-gray-300 mb-2">HackerRank</p>
-              <p className="text-gray-400 text-sm">Issued August 2023</p>
-            </div>
-          </div>
+          <RevealGroup className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3" stagger={0.08} amount={0.05}>
+            {[
+              { title: "Frontend Developer (React)", issuer: "HackerRank", issued: "Issued August 2026" },
+              { title: "Foundation: Introduction to LangChain — Python", issuer: "LangChain Academy", issued: "Issued July 2026" },
+              { title: "Lab: Build a RAG Chatbot", issuer: "Redis", issued: "Issued July 2026" },
+              { title: "5-Day AI Agents Intensive Course with Google", issuer: "Kaggle / Google", issued: "Issued December 2025" },
+              { title: "DeepAgents with LangGraph", issuer: "LangChain Academy", issued: "Issued September 2025" }
+            ].map((cert) => (
+              <RevealItem key={cert.title} y={24}>
+                <motion.article
+                  whileHover={{ y: -6 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  className="surface surface-interactive group relative h-full overflow-hidden p-6"
+                >
+                  <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-accent-400/70 via-accent-400/20 to-transparent" />
+                  <h3 className="mb-3 font-display text-base font-semibold leading-snug text-white transition-colors group-hover:text-accent-300">
+                    {cert.title}
+                  </h3>
+                  <p className="text-sm text-gray-400">{cert.issuer}</p>
+                  <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.16em] text-gray-500">{cert.issued}</p>
+                </motion.article>
+              </RevealItem>
+            ))}
+          </RevealGroup>
         </div>
       </div>
     </section>
@@ -428,80 +613,79 @@ const SkillsSection = () => {
 const ProjectsSection = () => {
   const projects = [
     {
-      title: "Node.js Order & User Management Platform",
-      description: "Built a scalable RESTful backend featuring normalized schemas and indexed queries, achieving a 30% reduction in query latency. Enhanced read performance using Redis caching and implemented secure JWT-based authentication with RBAC.",
-      technologies: ["Node.js", "Express.js", "PostgreSQL", "Sequelize", "Redis", "JWT", "AWS", "Docker"],
-      metrics: "30% reduction in query latency",
-      status: "Completed"
+      title: "CodeMind — AI Personal Codebase Assistant",
+      description: "Built a local AI assistant that uses RAG and FAISS to answer codebase architecture, API, and implementation questions. Added language-aware chunking, relevance gating, grounding prompts, multi-turn context, and AI-assisted file operations with a local LLM.",
+      technologies: ["Python", "FastAPI", "LangChain", "RAG", "FAISS", "Hugging Face Embeddings", "Ollama / Local LLM", "Docker"],
+      metrics: "Grounded codebase Q&A with local AI",
+      status: "AI / RAG"
     },
     {
-      title: "AI-Powered Sales CRM Platform",
-      description: "Built a scalable full-stack CRM platform for managing leads, contacts, and sales pipelines. Designed optimized RESTful APIs with PostgreSQL and Prisma ORM, improving data efficiency. Implemented real-time notifications using WebSockets.",
-      technologies: ["Next.js", "React.js", "Node.js", "Express.js", "PostgreSQL", "Prisma", "Redis", "WebSockets", "AWS", "Docker"],
-      metrics: "Enhanced performance with Redis caching",
-      status: "Completed"
+      title: "ResumeCopilot — AI Resume Architect & ATS Simulator",
+      description: "Built a full-stack AI resume platform with real-time LLM streaming, structured outputs, ATS scoring, semantic gap analysis, synchronized editing, live preview, Generative UI, and ATS-oriented PDF generation.",
+      technologies: ["Next.js", "React", "TypeScript", "LLM APIs", "SSE", "Zustand", "Tailwind CSS", "React PDF"],
+      metrics: "Real-time AI editing + semantic ATS analysis",
+      status: "AI / Product"
     },
     {
-      title: "Enterprise Project Management Platform",
-      description: "Built a scalable project management platform enabling real-time team collaboration. Implemented event-driven architecture using Kafka for service communication and reduced API response time by 30% through query optimization.",
-      technologies: ["React.js", "Node.js", "Express.js", "PostgreSQL", "Kafka", "AWS", "Docker", "JWT"],
-      metrics: "30% reduction in API response time",
-      status: "Completed"
+      title: "AI Log Anomaly Detection Platform",
+      description: "Built a real-time log analysis pipeline using Apache Kafka for event streaming and Google Gemini for AI-assisted anomaly detection, with MongoDB persistence and Grafana monitoring dashboards.",
+      technologies: ["Next.js", "Node.js", "Apache Kafka", "Google Gemini", "MongoDB", "Grafana"],
+      metrics: "Streaming logs with AI-assisted anomaly detection",
+      status: "AI / Streaming"
     },
     {
-      title: "AI-Powered Customer Support & Ticketing System",
-      description: "Developed a scalable ticketing and support system for managing customer workflows. Implemented priority-based ticket routing and automation workflows with Kafka for asynchronous processing.",
-      technologies: ["React.js", "Node.js", "Express.js", "PostgreSQL", "Kafka", "WebSockets"],
-      metrics: "High-throughput asynchronous processing",
-      status: "Completed"
+      title: "AI-Powered Sales & Customer Relationship Management Platform",
+      description: "Developed a full-stack CRM for leads, contacts, sales workflows, and customer operations. Implemented REST APIs, JWT/RBAC security, Redis caching, PostgreSQL data access, and real-time WebSocket updates, with an AI-ready application architecture.",
+      technologies: ["Next.js", "React.js", "Node.js", "Express.js", "PostgreSQL", "Prisma", "Redis", "WebSockets"],
+      metrics: "Secure, cached and real-time business workflows",
+      status: "Full Stack"
     }
   ];
 
   return (
-    <section id="projects" className="min-h-screen py-16 px-4 mx-5 bg-gray-800">
-      <div className="container mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4 text-white">Key Projects</h2>
-        <div className="w-20 h-1 bg-indigo-500 mx-auto mb-12"></div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6">
+    <section id="projects" className="section-pad bg-gray-800">
+      <SectionBackdrop className="absolute inset-0 z-0" variant="torus" position={[-2.9, 0.2, -2]} scale={1.3} opacity={0.14} />
+
+      <div className="page-container relative z-10">
+        <SectionTitle eyebrow="03 — Work" title="Selected Projects" />
+
+        <RevealGroup className="grid grid-cols-1 gap-6 md:grid-cols-2" stagger={0.12} amount={0.05}>
           {projects.map((project, index) => (
-            <div 
-              key={index} 
-              className="bg-gray-700 rounded-xl overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border border-gray-600 flex flex-col group"
-            >
-              <div className="p-6 flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-indigo-400 transition-colors">{project.title}</h3>
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    project.status === "Completed" 
-                      ? "bg-teal-900 text-teal-300" 
-                      : "bg-indigo-900 text-indigo-300"
-                  }`}>
+            <RevealItem key={index} y={40} className="flex">
+              <motion.article
+                whileHover={{ y: -8 }}
+                transition={{ type: 'spring', stiffness: 280, damping: 22 }}
+                className="surface group relative flex w-full flex-col overflow-hidden p-7 transition-colors duration-300 hover:border-accent-400/40"
+              >
+                <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-accent-400/70 via-accent-400/20 to-transparent" />
+
+                <div className="mb-4 flex items-start justify-between gap-4">
+                  <h3 className="font-display text-lg font-semibold leading-snug text-white transition-colors group-hover:text-accent-300">
+                    {project.title}
+                  </h3>
+                  <span className="shrink-0 rounded-full border border-accent-400/25 bg-accent-400/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-accent-300">
                     {project.status}
                   </span>
                 </div>
-                
-                <p className="text-gray-300 mb-4 leading-relaxed text-sm sm:text-base">{project.description}</p>
-                
-                <div className="mb-4">
-                  <p className="text-gray-400 text-sm font-medium mb-2">Key Metric:</p>
-                  <p className="text-teal-400 text-sm font-semibold">{project.metrics}</p>
+
+                <p className="mb-6 text-sm leading-relaxed text-gray-400">{project.description}</p>
+
+                <div className="mb-6 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-gray-500">What it demonstrates</p>
+                  <p className="mt-1 text-sm font-semibold text-accent-300">{project.metrics}</p>
                 </div>
-                
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.map((tech, techIndex) => (
-                    <span 
-                      key={techIndex} 
-                      className="px-2 py-1 bg-gray-600 text-gray-200 rounded-full text-xs hover:bg-indigo-600 transition-colors"
-                    >
+
+                <div className="mt-auto flex flex-wrap gap-2">
+                  {project.technologies.map((tech) => (
+                    <motion.span key={tech} whileHover={{ y: -2 }} className="chip">
                       {tech}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
-              </div>
-            </div>
+              </motion.article>
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
       </div>
     </section>
   );
@@ -511,95 +695,172 @@ const ExperienceSection = () => {
   const experiences = [
     {
       role: "Software Engineer",
-      company: "Profiles Systems Pvt. Ltd.",
+      company: "Profilics Systems Pvt. Ltd.",
       location: "Ujjain, India",
-      period: "Jan 2022 – Aug 2025",
+      period: "01/2022 – 08/2025",
       duration: "3.8 years",
-      description: "Designed and delivered scalable backend and full-stack systems supporting 15,000+ users and 5,000+ daily transactions.",
+      description: "Built and maintained enterprise full-stack applications and business workflows across CRM, project, customer, and document-management use cases.",
       achievements: [
-        "Built and optimized RESTful APIs using Node.js (Express.js) and integrated GraphQL services, reducing latency by 40%",
-        "Developed high-performance microservices and event-driven systems, improving system efficiency by 35%",
-        "Implemented JWT-based authentication and authorization across distributed services",
-        "Developed dynamic and responsive frontend applications using React.js, improving UX and performance",
-        "Integrated Kafka and asynchronous processing for real-time workflows and messaging",
-        "Deployed and managed production systems on AWS using Docker and CI/CD, achieving 99.95% uptime"
+        "Built and maintained full-stack applications using React.js, Node.js, Express.js, PostgreSQL, and MongoDB",
+        "Designed and integrated REST APIs connecting frontend and backend services for core business workflows",
+        "Developed reusable React.js and TypeScript components for responsive enterprise interfaces",
+        "Optimized database queries and application data access across PostgreSQL, MongoDB, and MySQL",
+        "Implemented secure JWT authentication, authorization, and role-based access control (RBAC)",
+        "Developed modular backend services and contributed to CRM and document-management applications",
+        "Worked with real-time and event-driven capabilities using WebSockets, Kafka, and related messaging patterns",
+        "Used Git, Docker, AWS, and CI/CD workflows for development, deployment, and application maintenance"
       ],
       technologies: [
-        "Node.js", "Express.js", "React.js", "GraphQL", "Kafka", "Socket.io", "RabbitMQ",
-        "PostgreSQL", "MongoDB", "AWS", "Docker", "CI/CD", "JWT", "REST APIs", "Microservices"
+        "React.js", "TypeScript", "Angular", "Node.js", "Express.js", "Python", "REST APIs",
+        "PostgreSQL", "MongoDB", "MySQL", "Redis", "Kafka", "RabbitMQ", "WebSockets",
+        "AWS", "Docker", "CI/CD", "Git", "JWT", "RBAC"
       ]
     }
   ];
 
+  const professionalDevelopment = {
+    role: "Professional Development",
+    company: "Career Break",
+    period: "09/2025 – Present",
+    description: "Career break due to family circumstances while continuing structured professional development through hands-on full-stack and AI/GenAI projects.",
+    achievements: [
+      "Strengthened practical skills in React.js, Node.js, Python/FastAPI, PostgreSQL, Docker, and AWS",
+      "Built AI/GenAI applications using LangChain, LangGraph, RAG, embeddings, LLM APIs, and AI agents",
+      "Developed projects spanning AI assistants, resume intelligence, real-time log analysis, and business applications",
+      "Completed structured learning and certifications in AI agents, LangChain, RAG, and machine learning"
+    ],
+    technologies: [
+      "Python", "FastAPI", "LangChain", "LangGraph", "RAG", "Embeddings", "FAISS", "LLM APIs",
+      "AI Agents", "React.js", "Node.js", "PostgreSQL", "Docker", "AWS", "Ollama"
+    ]
+  };
+
   return (
-    <section id="experience" className="min-h-screen py-16 px-4 bg-gray-900">
-      <div className="container mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4 text-white">Professional Experience</h2>
-        <div className="w-20 h-1 bg-indigo-500 mx-auto mb-12"></div>
-        
-        <div className="space-y-8">
+    <section id="experience" className="section-pad bg-gray-900">
+      <SectionBackdrop className="absolute inset-0 z-0" variant="rings" position={[2.9, -0.5, -2]} scale={1.25} opacity={0.15} />
+
+      <div className="page-container relative z-10">
+        <SectionTitle eyebrow="04 — Career" title="Experience & Growth" />
+
+        <div className="space-y-6">
           {experiences.map((exp, index) => (
-            <div key={index} className="bg-gray-800 p-6 sm:p-8 rounded-xl shadow-lg border border-gray-700 hover:border-indigo-500/50 transition-colors">
-              <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-6">
-                <div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white">{exp.role}</h3>
-                  <p className="text-indigo-400 text-base sm:text-lg font-medium mt-1">{exp.company}</p>
-                  <p className="text-gray-400 mt-1">{exp.location}</p>
-                  <p className="text-gray-300 text-sm mt-1">{exp.duration} experience</p>
+            <Reveal key={index} y={40} amount={0.1}>
+              <article className="surface relative overflow-hidden p-7 sm:p-9">
+                <span className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-accent-400/70 via-accent-400/20 to-transparent" />
+
+                <div className="mb-8 flex flex-col justify-between gap-4 lg:flex-row lg:items-start">
+                  <div>
+                    <h3 className="font-display text-xl font-semibold sm:text-2xl">{exp.role}</h3>
+                    <p className="mt-1.5 text-base font-medium text-accent-300">{exp.company}</p>
+                    <p className="mt-1 text-sm text-gray-500">{exp.location}</p>
+                    <p className="mt-1 text-sm text-gray-500">{exp.duration} professional experience</p>
+                  </div>
+                  <span className="shrink-0 rounded-full border border-white/10 bg-white/5 px-4 py-2 font-mono text-xs text-gray-300">
+                    {exp.period}
+                  </span>
                 </div>
-                <span className="text-indigo-300 bg-indigo-900/50 px-4 py-2 rounded-full text-sm font-medium mt-2 lg:mt-0 border border-indigo-500/30">
-                  {exp.period}
+
+                <p className="mb-8 text-base leading-relaxed text-gray-300">{exp.description}</p>
+
+                <div className="mb-8">
+                  <h4 className="eyebrow mb-4">Key Contributions</h4>
+                  <RevealGroup as="ul" className="space-y-3" stagger={0.07} amount={0.15}>
+                    {exp.achievements.map((achievement, achievementIndex) => (
+                      <RevealItem key={achievementIndex} as="li" y={18} className="flex gap-3 text-sm leading-relaxed text-gray-300">
+                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent-400" />
+                        <span>{achievement}</span>
+                      </RevealItem>
+                    ))}
+                  </RevealGroup>
+                </div>
+
+                <div>
+                  <h4 className="eyebrow mb-4">Technologies Used</h4>
+                  <RevealGroup className="flex flex-wrap gap-2" stagger={0.04} amount={0.15}>
+                    {exp.technologies.map((tech) => (
+                      <RevealItem key={tech} y={14}>
+                        <motion.span whileHover={{ y: -2 }} className="chip">{tech}</motion.span>
+                      </RevealItem>
+                    ))}
+                  </RevealGroup>
+                </div>
+              </article>
+            </Reveal>
+          ))}
+
+          <Reveal y={40} amount={0.1}>
+            <article className="surface relative overflow-hidden p-7 sm:p-9">
+              <span className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-highlight-400/70 via-highlight-400/20 to-transparent" />
+              <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-highlight-400/60 via-highlight-400/15 to-transparent" />
+
+              <div className="mb-8 flex flex-col justify-between gap-4 lg:flex-row lg:items-start">
+                <div>
+                  <h3 className="font-display text-xl font-semibold sm:text-2xl">{professionalDevelopment.role}</h3>
+                  <p className="mt-1.5 text-base font-medium text-highlight-300">{professionalDevelopment.company}</p>
+                </div>
+                <span className="shrink-0 rounded-full border border-highlight-400/25 bg-highlight-400/10 px-4 py-2 font-mono text-xs text-highlight-300">
+                  {professionalDevelopment.period}
                 </span>
               </div>
-              
-              <p className="text-gray-300 mb-6 italic text-base sm:text-lg">{exp.description}</p>
-              
-              <div className="mb-6">
-                <h4 className="text-base sm:text-lg font-semibold text-indigo-400 mb-3">Key Achievements:</h4>
-                <ul className="list-disc list-inside text-gray-300 space-y-2 text-sm sm:text-base">
-                  {exp.achievements.map((achievement, achievementIndex) => (
-                    <li key={achievementIndex} className="leading-relaxed">{achievement}</li>
+
+              <p className="mb-8 text-base leading-relaxed text-gray-300">{professionalDevelopment.description}</p>
+
+              <div className="mb-8">
+                <h4 className="eyebrow mb-4">Focus Areas</h4>
+                <RevealGroup as="ul" className="space-y-3" stagger={0.07} amount={0.15}>
+                  {professionalDevelopment.achievements.map((achievement, achievementIndex) => (
+                    <RevealItem key={achievementIndex} as="li" y={18} className="flex gap-3 text-sm leading-relaxed text-gray-300">
+                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-highlight-400" />
+                      <span>{achievement}</span>
+                    </RevealItem>
                   ))}
-                </ul>
+                </RevealGroup>
               </div>
-              
+
               <div>
-                <h4 className="text-base sm:text-lg font-semibold text-indigo-400 mb-3">Technologies Used:</h4>
-                <div className="flex flex-wrap gap-2">
-                  {exp.technologies.map((tech, techIndex) => (
-                    <span 
-                      key={techIndex} 
-                      className="px-3 py-1 bg-gray-700 text-gray-300 rounded-full text-sm hover:bg-indigo-600 transition-colors"
-                    >
-                      {tech}
-                    </span>
+                <h4 className="eyebrow mb-4">Current Toolkit</h4>
+                <RevealGroup className="flex flex-wrap gap-2" stagger={0.04} amount={0.15}>
+                  {professionalDevelopment.technologies.map((tech) => (
+                    <RevealItem key={tech} y={14}>
+                      <motion.span whileHover={{ y: -2 }} className="chip !border-highlight-400/25 !text-highlight-200">{tech}</motion.span>
+                    </RevealItem>
                   ))}
-                </div>
+                </RevealGroup>
               </div>
-            </div>
-          ))}
+
+              <div className="mt-8 flex flex-col gap-3 rounded-2xl border border-accent-400/25 bg-accent-400/[0.07] px-5 py-4 sm:flex-row sm:items-center sm:gap-4">
+                <span className="inline-flex shrink-0 items-center gap-2 rounded-full border border-accent-400/30 bg-accent-400/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-accent-300">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-400 opacity-70" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent-400" />
+                  </span>
+                  Open to opportunities
+                </span>
+                <p className="text-sm text-gray-300">Currently focused on full-time software engineering roles across Full Stack, AI/GenAI, Backend, and FDE-oriented product engineering.</p>
+              </div>
+            </article>
+          </Reveal>
         </div>
 
-        {/* Education Section */}
-        <div className="mt-16">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4 text-white">Education</h2>
-          <div className="w-16 h-1 bg-indigo-500 mx-auto mb-8"></div>
-          
-          <div className="bg-gray-800 p-6 sm:p-8 rounded-xl shadow-lg border border-gray-700 max-w-2xl mx-auto hover:border-indigo-500/50 transition-colors">
-            <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start">
-              <div>
-                <h3 className="text-lg sm:text-xl font-bold text-white">B.Tech in Computer Science</h3>
-                <p className="text-indigo-400 font-medium mt-1">Shri Guru Sandipani Institute of Technology</p>
-                <p className="text-gray-400 mt-1">Ujjain, India</p>
+        <div className="mt-24">
+          <SectionTitle eyebrow="Academic" title="Education" className="mb-12" />
+
+          <Reveal y={32} amount={0.15} className="mx-auto max-w-3xl">
+            <article className="surface surface-interactive relative overflow-hidden p-7 sm:p-9">
+              <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-accent-400/70 via-accent-400/20 to-transparent" />
+              <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-start">
+                <div>
+                  <h3 className="font-display text-lg font-semibold">B.Tech in Computer Science</h3>
+                  <p className="mt-1.5 font-medium text-accent-300">Shri Guru Sandipani Institute of Technology</p>
+                  <p className="mt-1 text-sm text-gray-500">Ujjain, India</p>
+                </div>
+                <div className="lg:text-right">
+                  <span className="inline-block rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-xs text-gray-300">Graduated 2023</span>
+                  <p className="mt-2 font-semibold text-white">CGPA: 7.6/10</p>
+                </div>
               </div>
-              <div className="mt-2 lg:mt-0 lg:text-right">
-                <span className="text-indigo-300 bg-indigo-900/50 px-3 py-1 rounded-full text-sm font-medium border border-indigo-500/30">
-                  Graduated 2023
-                </span>
-                <p className="text-white font-semibold mt-2">CGPA: 7.6/10</p>
-              </div>
-            </div>
-          </div>
+            </article>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -649,7 +910,7 @@ const ContactSection = () => {
     }
 
     emailjs.send(serviceId, templateId, formData, publicKey)
-      .then((result) => {
+      .then(() => {
         setFeedbackMessage('Message Sent Successfully!');
         setFeedbackType('success');
         setFormData({ name: '', email: '', message: '' });
@@ -657,7 +918,7 @@ const ContactSection = () => {
           setFeedbackMessage('');
           setFeedbackType('');
         }, 5000);
-      }, (error) => {
+      }, () => {
         setFeedbackMessage('Failed to send message. Please try again.');
         setFeedbackType('error');
         setTimeout(() => {
@@ -667,141 +928,162 @@ const ContactSection = () => {
       });
   };
 
+  const details = [
+    {
+      icon: <AiOutlineMail className="h-5 w-5" />,
+      label: "Email",
+      value: (
+        <a href="mailto:pratik.raut9115@gmail.com" className="font-medium text-white transition-colors hover:text-accent-300">
+          pratik.raut9115@gmail.com
+        </a>
+      )
+    },
+    {
+      icon: (
+        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+        </svg>
+      ),
+      label: "Phone",
+      value: (
+        <a href="tel:+919111502449" className="font-medium text-white transition-colors hover:text-accent-300">
+          +91-9111502449
+        </a>
+      )
+    },
+    {
+      icon: (
+        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      ),
+      label: "Location",
+      value: <span className="font-medium text-white">Ujjain, Madhya Pradesh, India</span>
+    }
+  ];
+
   return (
-    <section id="contact" className="min-h-screen py-16 px-4 bg-gray-800">
-      <div className="container mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4 text-white">Get In Touch</h2>
-        <div className="w-20 h-1 bg-indigo-500 mx-auto mb-12"></div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className="space-y-6">
-            <h3 className="text-xl sm:text-2xl text-indigo-400 font-semibold">Let's work together</h3>
-            <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
-              I'm currently available for freelance work and open to new opportunities. 
-              If you have a project that you want to get started or think you need my help 
-              with something, then get in touch.
-            </p>
-            
-            <div className="space-y-4 pt-4">
-              <div className="flex items-center space-x-4">
-                <div className="h-12 w-12 bg-gradient-to-r from-indigo-600 to-teal-500 rounded-full flex items-center justify-center shadow-lg">
-                  <AiOutlineMail className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-gray-400">Email</p>
-                  <a href="mailto:pratik.raut9115@gmail.com" className="text-white hover:text-indigo-400 transition-colors">pratik.raut9115@gmail.com</a>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-4">
-                <div className="h-12 w-12 bg-gradient-to-r from-indigo-600 to-teal-500 rounded-full flex items-center justify-center shadow-lg">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-gray-400">Phone</p>
-                  <a href="tel:+919111502449" className="text-white hover:text-indigo-400 transition-colors">+91-9111502449</a>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-4">
-                <div className="h-12 w-12 bg-gradient-to-r from-indigo-600 to-teal-500 rounded-full flex items-center justify-center shadow-lg">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-gray-400">Location</p>
-                  <p className="text-white">Ujjain, Madhya Pradesh, India</p>
-                </div>
-              </div>
+    <section id="contact" className="section-pad bg-gray-800">
+      <SectionBackdrop className="absolute inset-0 z-0" variant="icosahedron" position={[-3, 0.8, -2]} scale={1.2} opacity={0.13} />
+
+      <div className="page-container relative z-10">
+        <SectionTitle eyebrow="05 — Say Hello" title="Get In Touch" />
+
+        <div className="grid grid-cols-1 gap-14 lg:grid-cols-2">
+          <RevealGroup className="space-y-8" stagger={0.1} amount={0.08}>
+            <RevealItem y={20}>
+              <h3 className="font-display text-xl font-semibold text-accent-300 sm:text-2xl">Let&apos;s work together</h3>
+            </RevealItem>
+            <RevealItem>
+              <p className="leading-relaxed text-gray-400">
+                I&apos;m currently open to full-time software engineering opportunities. I&apos;m especially interested in Full Stack, AI/GenAI, Backend, and FDE-oriented product engineering roles where I can own features end to end.
+              </p>
+            </RevealItem>
+
+            <div className="space-y-3">
+              {details.map((detail) => (
+                <RevealItem key={detail.label} y={20} className="flex items-center gap-4">
+                  <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-accent-400/25 bg-accent-400/10 text-accent-300">
+                    {detail.icon}
+                  </div>
+                  <div>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-gray-500">{detail.label}</p>
+                    <div className="text-sm">{detail.value}</div>
+                  </div>
+                </RevealItem>
+              ))}
             </div>
 
-            <div className="pt-6">
-              <p className="text-gray-400 mb-4 font-medium">Connect with me:</p>
-              <div className="flex space-x-4 flex-wrap gap-3">
-                {[
-                  { icon: <FaGithub />, link: "https://github.com/pratikdevelop", label: "GitHub" },
-                  { icon: <FaLinkedinIn />, link: "https://www.linkedin.com/in/pratik-raut-39b631227/", label: "LinkedIn" },
-                  { icon: <FaKaggle />, link: "https://www.kaggle.com/pratik222", label: "Kaggle" },
-                  { icon: <FaDev />, link: "https://dev.to/raut45", label: "Dev Community" },
-                  { icon: <FaBitbucket />, link: "https://bitbucket.org/pratik_5678/workspace/overview/", label: "Bitbucket" },
-                  { icon: <FaHackerrank />, link: "https://www.hackerrank.com/profile/pratikraut88895", label: "HackerRank" }
-                ].map((social, index) => (
-                  <a
-                    key={index}
-                    href={social.link}
-                    className="p-3 bg-gray-700 rounded-lg hover:bg-indigo-600 transition-colors text-white shadow-lg"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.label}
-                  >
-                    {social.icon}
-                  </a>
-                ))}
+            <RevealItem y={20}>
+              <div className="pt-2">
+                <p className="eyebrow mb-4">Connect with me</p>
+                <div className="flex flex-wrap gap-3">
+                  {SOCIAL_LINKS.map((social) => (
+                    <motion.a
+                      key={social.label}
+                      href={social.link}
+                      whileHover={{ y: -5 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 18 }}
+                      className="icon-btn"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
+                    >
+                      {social.icon}
+                    </motion.a>
+                  ))}
+                </div>
               </div>
+            </RevealItem>
+          </RevealGroup>
+
+          <Reveal y={40} amount={0.1}>
+            <div className="surface relative overflow-hidden p-7 sm:p-9">
+              <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-accent-400/70 via-accent-400/20 to-transparent" />
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div>
+                  <label htmlFor="name" className="field-label">Full Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="field"
+                    required
+                    placeholder="Your full name"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="field-label">Email Address</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="field"
+                    required
+                    placeholder="your.email@example.com"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="field-label">Message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows={6}
+                    className="field resize-none"
+                    required
+                    placeholder="Tell me about your project or inquiry..."
+                  ></textarea>
+                </div>
+
+                <motion.button
+                  type="submit"
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="btn btn-primary w-full"
+                >
+                  Send Message
+                </motion.button>
+              </form>
+              {feedbackMessage && (
+                <motion.p
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`mt-4 text-center text-sm ${feedbackType === 'success' ? 'text-accent-300' : 'text-red-400'}`}
+                >
+                  {feedbackMessage}
+                </motion.p>
+              )}
             </div>
-          </div>
-          
-          <div className="bg-gray-700 p-6 sm:p-8 rounded-xl shadow-lg border border-gray-600">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-gray-300 mb-2 font-medium">Full Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-gray-600 border border-gray-500 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
-                  required
-                  placeholder="Your full name"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="email" className="block text-gray-300 mb-2 font-medium">Email Address</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-gray-600 border border-gray-500 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
-                  required
-                  placeholder="your.email@example.com"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="message" className="block text-gray-300 mb-2 font-medium">Message</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={6}
-                  className="w-full px-4 py-3 bg-gray-600 border border-gray-500 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
-                  required
-                  placeholder="Tell me about your project or inquiry..."
-                ></textarea>
-              </div>
-              
-              <button
-                type="submit"
-                className="w-full px-4 py-3 bg-gradient-to-r from-indigo-600 to-teal-500 text-white rounded-lg hover:from-indigo-700 hover:to-teal-600 transition-colors shadow-lg font-medium"
-              >
-                Send Message
-              </button>
-            </form>
-            {feedbackMessage && (
-              <p className={`text-center mt-4 ${feedbackType === 'success' ? 'text-green-500' : 'text-red-500'}`}>
-                {feedbackMessage}
-              </p>
-            )}
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -810,32 +1092,34 @@ const ContactSection = () => {
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 py-8 text-center text-gray-400 border-t border-gray-700">
-      <div className="container mx-auto">
-        <div className="flex justify-center space-x-6 mb-6">
-          {[
-            { icon: <FaGithub />, link: "https://github.com/pratikdevelop" },
-            { icon: <FaLinkedinIn />, link: "https://www.linkedin.com/in/pratik-raut-39b631227/" },
-            { icon: <FaKaggle />, link: "https://www.kaggle.com/pratik222" },
-            { icon: <FaDev />, link: "https://dev.to/raut45" },
-            { icon: <FaBitbucket />, link: "https://bitbucket.org/pratik_5678/workspace/overview/" },
-            { icon: <FaHackerrank />, link: "https://www.hackerrank.com/profile/pratikraut88895" },
-            { icon: <AiOutlineMail />, link: "mailto:pratik.raut9115@gmail.com" }
-          ].map((social, index) => (
-            <a
-              key={index}
-              href={social.link}
-              className="text-gray-400 hover:text-white transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {social.icon}
-            </a>
+    <footer className="border-t border-white/10 bg-gray-900 py-14 text-center">
+      <div className="page-container">
+        <RevealGroup className="mb-8 flex flex-wrap justify-center gap-3" stagger={0.06} amount={0.4}>
+          {SOCIAL_LINKS.map((social) => (
+            <RevealItem key={social.label} y={16}>
+              <motion.a
+                href={social.link}
+                whileHover={{ y: -4 }}
+                className="icon-btn !h-10 !w-10"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.label}
+              >
+                {social.icon}
+              </motion.a>
+            </RevealItem>
           ))}
-        </div>
-        <p className="text-sm">© {new Date().getFullYear()} Pratik Raut. All rights reserved.</p>
-        <p className="text-sm mt-2 text-gray-500">Full Stack Developer | Node.js | React.js</p>
-        <p className="text-xs mt-2 text-gray-600">Designed and developed with ❤️ using Next.js & Tailwind CSS</p>
+        </RevealGroup>
+
+        <p className="text-sm text-gray-500">
+          © {new Date().getFullYear()} Pratik Raut. All rights reserved.
+        </p>
+        <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.2em] text-gray-600">
+          Full Stack Engineer &nbsp;/&nbsp; MERN &nbsp;/&nbsp; AI/GenAI &nbsp;/&nbsp; Node.js &nbsp;/&nbsp; Python
+        </p>
+        <p className="mt-5 text-xs text-gray-600">
+          Designed and built with Next.js, Three.js &amp; Tailwind CSS
+        </p>
       </div>
     </footer>
   );

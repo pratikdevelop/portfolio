@@ -6,19 +6,113 @@
 NEXT_PUBLIC_EMAILJS_SERVICE_ID=service_kcjc1z9
 NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=template_skl63m7
 NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=rsVn6HVhOpBzFw-Ct */
-@import url('https://fonts.googleapis.com/css2?family=Kalnia:wght@400;500&family=Noto+Serif&family=Sevillana&display=swap');
-* {
-    font-family: "Kreon", serif !important;
-  font-optical-sizing: auto !important;
-  font-weight: 600 !important;
-  font-style: normal !important;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-gray-900 font-sans text-gray-300 antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-white;
+  }
+
+  ::selection {
+    @apply bg-accent-400/30 text-white;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
 }
 
+@layer components {
+  .page-container {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
 
-.about-heading {
-  font-size: 2rem;
-  font-weight: 700;
+  .section-pad {
+    @apply relative overflow-hidden py-24 sm:py-32;
+  }
+
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.22em] text-accent-400;
+  }
+
+  .surface {
+    @apply rounded-2xl border border-white/10 bg-white/[0.035] shadow-lift;
+    background-image: linear-gradient(160deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0.012));
+  }
+
+  .surface-interactive {
+    @apply transition-all duration-300 hover:border-accent-400/40 hover:bg-white/[0.06];
+  }
+
+  .btn {
+    @apply inline-flex select-none items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold
+      transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400
+      focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900;
+  }
+
+  .btn-primary {
+    @apply bg-accent-400 text-gray-950 hover:bg-accent-300 hover:shadow-glow;
+  }
+
+  .btn-ghost {
+    @apply border border-white/15 text-gray-200 hover:border-accent-400/50 hover:bg-accent-400/10 hover:text-accent-200;
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-gray-300
+      transition-colors duration-200 hover:border-accent-400/40 hover:bg-accent-400/10 hover:text-accent-200;
+  }
+
+  .icon-btn {
+    @apply grid h-11 w-11 place-items-center rounded-xl border border-white/10 bg-white/5 text-gray-300
+      transition-all duration-200 hover:border-accent-400/40 hover:bg-accent-400/10 hover:text-accent-300;
+  }
+
+  .nav-link {
+    @apply relative rounded-full px-3.5 py-2 text-sm font-medium text-gray-400 transition-colors duration-200
+      hover:bg-white/5 hover:text-white;
+  }
+
+  .nav-link-active {
+    @apply bg-accent-400/10 text-accent-300 hover:bg-accent-400/10 hover:text-accent-300;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white
+      placeholder-gray-500 transition-all duration-200
+      focus:border-accent-400/60 focus:bg-white/[0.06] focus:outline-none focus:ring-2 focus:ring-accent-400/25;
+  }
+
+  .field-label {
+    @apply mb-2 block font-mono text-[11px] uppercase tracking-[0.18em] text-gray-400;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-br from-white via-white to-accent-300 bg-clip-text text-transparent;
+  }
+
+  .accent-rule {
+    @apply h-px w-12 bg-gradient-to-r from-accent-400 to-transparent;
+  }
 }
