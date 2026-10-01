@@ -7,6 +7,14 @@ NEXT_PUBLIC_EMAILJS_SERVICE_ID=service_kcjc1z9
 NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=template_skl63m7
 NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=rsVn6HVhOpBzFw-Ct */
 
+*{
+   font-family: "Roboto", sans-serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 500 !important;
+  font-style: normal !important;
+  font-variation-settings:
+    "wdth" 100 !important;
+}
 @layer base {
   html {
     scroll-behavior: smooth;
