@@ -9,9 +9,11 @@ import { usePointer } from './hooks'
 
 // SceneCanvas uses a perspective camera at z=6 with fov 55, so the visible
 // frustum at z=0 is 6.25 world units tall. Keep the outermost ring under that
-// (2 x 2.82 = 5.64) so nothing clips on square canvases.
-const CARD_H = 3.9
-const CARD_W = 3.06
+// (2 x 2.8 = 5.6) so nothing clips on square canvases.
+// Square card: profile.png is square (1254x1254), so the card is square too and
+// the texture is sampled 1:1 with no stretch and no crop.
+const CARD_H = 3.3
+const CARD_W = 3.3
 const BOW_RADIUS = 8
 const BOB_SPEED = 0.6
 const BOB_RANGE = 0.09
@@ -29,12 +31,11 @@ function PortraitCard() {
   useEffect(() => {
     texture.colorSpace = THREE.SRGBColorSpace
     texture.anisotropy = Math.min(8, gl.capabilities.getMaxAnisotropy())
-    // profile.png is square while the card is portrait, so crop the sides to a
-    // centred window instead of letting the texture stretch.
+    // Square photo on a square card: sample the full texture with no crop.
     texture.wrapS = THREE.ClampToEdgeWrapping
     texture.wrapT = THREE.ClampToEdgeWrapping
-    texture.repeat.set(CARD_W / CARD_H, 1)
-    texture.offset.set((1 - CARD_W / CARD_H) / 2, 0)
+    texture.repeat.set(1, 1)
+    texture.offset.set(0, 0)
     texture.needsUpdate = true
   }, [texture, gl])
 
@@ -87,9 +88,9 @@ function OrbitalRings() {
 
   const rings = useMemo(
     (): { radius: number; tube: number; color: string; opacity: number; rot: [number, number, number] }[] => [
-      { radius: 2.58, tube: 0.012, color: '#34d399', opacity: 0.5, rot: [Math.PI / 2.1, 0.2, 0] },
-      { radius: 2.7, tube: 0.008, color: '#fbbf24', opacity: 0.4, rot: [Math.PI / 1.65, 0.75, 0.4] },
-      { radius: 2.82, tube: 0.006, color: '#34d399', opacity: 0.22, rot: [Math.PI / 2.7, -0.5, 0.9] }
+      { radius: 2.5, tube: 0.012, color: '#34d399', opacity: 0.5, rot: [Math.PI / 2.1, 0.2, 0] },
+      { radius: 2.65, tube: 0.008, color: '#fbbf24', opacity: 0.4, rot: [Math.PI / 1.65, 0.75, 0.4] },
+      { radius: 2.8, tube: 0.006, color: '#34d399', opacity: 0.22, rot: [Math.PI / 2.7, -0.5, 0.9] }
     ],
     []
   )

@@ -174,11 +174,11 @@ const HomeSection = ({ onDownloadCV }: { onDownloadCV: () => void }) => {
   return (
     <section
       id="home"
-      className="relative flex min-h-screen items-center overflow-hidden px-4 pb-20 pt-28"
+      className="relative flex min-h-screen flex-col justify-center overflow-hidden px-4 pb-20 pt-28"
     >
       <HeroBackground className="absolute inset-0 z-0" />
 
-      <div className="page-container relative z-10 grid grid-cols-1 items-center gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
+      <div className="page-container relative z-10 grid w-full grid-cols-1 items-center gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
         {/* LEFT CONTENT */}
         <RevealGroup className="space-y-6" stagger={0.1}>
           <RevealItem y={20}>
@@ -416,7 +416,7 @@ const HomeSection = ({ onDownloadCV }: { onDownloadCV: () => void }) => {
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-              className="absolute     -right-5 bottom-16 rounded-xl border border-white/10 bg-black/40 px-3 py-2 font-mono text-[10px] uppercase tracking-wider text-accent-300 backdrop-blur-md"
+              className="absolute -right-5 bottom-16 rounded-xl border border-white/10 bg-black/40 px-3 py-2 font-mono text-[10px] uppercase tracking-wider text-accent-300 backdrop-blur-md"
             >
               AI / RAG / Agents
             </motion.div>
@@ -435,6 +435,30 @@ const HomeSection = ({ onDownloadCV }: { onDownloadCV: () => void }) => {
           </div>
         </Reveal>
       </div>
+
+      {/* RECRUITER STATS — responsive 2-col on mobile, 4-col on desktop */}
+      <Reveal className="page-container relative z-10 mt-16 w-full" y={28} amount={0.1}>
+        <dl className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          {[
+            { value: "3.8 yrs", label: "Professional experience" },
+            { value: "15,000+", label: "Users supported" },
+            { value: "5,000+", label: "Daily transactions" },
+            { value: "AI / GenAI", label: "RAG · Agents · LLM apps" },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              className="surface flex flex-col px-5 py-4 text-center sm:text-left"
+            >
+              <dt className="order-2 mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-gray-500">
+                {stat.label}
+              </dt>
+              <dd className="order-1 font-display text-2xl font-semibold text-white">
+                {stat.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </Reveal>
     </section>
   );
 };
@@ -611,34 +635,60 @@ const SkillsSection = () => {
 };
 
 const ProjectsSection = () => {
+  const [selected, setSelected] = useState(0);
+
   const projects = [
     {
       title: "CodeMind — AI Personal Codebase Assistant",
       description: "Built a local AI assistant that uses RAG and FAISS to answer codebase architecture, API, and implementation questions. Added language-aware chunking, relevance gating, grounding prompts, multi-turn context, and AI-assisted file operations with a local LLM.",
       technologies: ["Python", "FastAPI", "LangChain", "RAG", "FAISS", "Hugging Face Embeddings", "Ollama / Local LLM", "Docker"],
       metrics: "Grounded codebase Q&A with local AI",
-      status: "AI / RAG"
+      status: "AI / RAG",
+      fit: "Best fit: AI/GenAI Engineer",
+      highlights: [
+        "Local-first RAG over private codebases — no data leaves the machine",
+        "Grounded answers with relevance gating to cut hallucination risk",
+        "Language-aware chunking tuned for real repository structure",
+      ],
     },
     {
       title: "ResumeCopilot — AI Resume Architect & ATS Simulator",
       description: "Built a full-stack AI resume platform with real-time LLM streaming, structured outputs, ATS scoring, semantic gap analysis, synchronized editing, live preview, Generative UI, and ATS-oriented PDF generation.",
       technologies: ["Next.js", "React", "TypeScript", "LLM APIs", "SSE", "Zustand", "Tailwind CSS", "React PDF"],
       metrics: "Real-time AI editing + semantic ATS analysis",
-      status: "AI / Product"
+      status: "AI / Product",
+      fit: "Best fit: Full Stack + AI Product",
+      highlights: [
+        "Real-time LLM streaming UX with synchronized editing and live preview",
+        "Structured outputs driving ATS scoring and semantic gap analysis",
+        "End-to-end PDF generation pipeline for ATS-oriented resumes",
+      ],
     },
     {
       title: "AI Log Anomaly Detection Platform",
       description: "Built a real-time log analysis pipeline using Apache Kafka for event streaming and Google Gemini for AI-assisted anomaly detection, with MongoDB persistence and Grafana monitoring dashboards.",
       technologies: ["Next.js", "Node.js", "Apache Kafka", "Google Gemini", "MongoDB", "Grafana"],
       metrics: "Streaming logs with AI-assisted anomaly detection",
-      status: "AI / Streaming"
+      status: "AI / Streaming",
+      fit: "Best fit: Backend / Streaming",
+      highlights: [
+        "Kafka event streaming feeding AI-assisted anomaly detection",
+        "MongoDB persistence with Grafana monitoring dashboards",
+        "Production-style observability around an LLM workflow",
+      ],
     },
     {
       title: "AI-Powered Sales & Customer Relationship Management Platform",
       description: "Developed a full-stack CRM for leads, contacts, sales workflows, and customer operations. Implemented REST APIs, JWT/RBAC security, Redis caching, PostgreSQL data access, and real-time WebSocket updates, with an AI-ready application architecture.",
       technologies: ["Next.js", "React.js", "Node.js", "Express.js", "PostgreSQL", "Prisma", "Redis", "WebSockets"],
       metrics: "Secure, cached and real-time business workflows",
-      status: "Full Stack"
+      status: "Full Stack",
+      fit: "Best fit: Full Stack Engineer",
+      highlights: [
+        "JWT/RBAC security across leads, contacts, and sales workflows",
+        "Redis caching plus PostgreSQL data access for responsive reads",
+        "Real-time WebSocket updates on an AI-ready architecture",
+      ],
     }
   ];
 
@@ -649,42 +699,100 @@ const ProjectsSection = () => {
       <div className="page-container relative z-10">
         <SectionTitle eyebrow="03 — Work" title="Selected Projects" />
 
+        <Reveal y={16} className="mx-auto mb-10 max-w-2xl text-center">
+          <p className="text-sm leading-relaxed text-gray-400">
+            Recruiter shortcut: click any project to spotlight it and see why it
+            matters in one glance.
+          </p>
+        </Reveal>
+
         <RevealGroup className="grid grid-cols-1 gap-6 md:grid-cols-2" stagger={0.12} amount={0.05}>
-          {projects.map((project, index) => (
-            <RevealItem key={index} y={40} className="flex">
-              <motion.article
-                whileHover={{ y: -8 }}
-                transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                className="surface group relative flex w-full flex-col overflow-hidden p-7 transition-colors duration-300 hover:border-accent-400/40"
-              >
-                <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-accent-400/70 via-accent-400/20 to-transparent" />
+          {projects.map((project, index) => {
+            const isSelected = selected === index;
+            return (
+              <RevealItem key={index} y={40} className="flex">
+                <motion.article
+                  whileHover={{ y: -8 }}
+                  transition={{ type: 'spring', stiffness: 280, damping: 22 }}
+                  onClick={() => setSelected(index)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      setSelected(index);
+                    }
+                  }}
+                  tabIndex={0}
+                  role="button"
+                  aria-pressed={isSelected}
+                  aria-label={`Spotlight project: ${project.title}`}
+                  className={`surface group relative flex w-full cursor-pointer flex-col overflow-hidden p-7 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400/60 ${
+                    isSelected
+                      ? 'border-accent-400/60 shadow-glow'
+                      : 'hover:border-accent-400/40'
+                  }`}
+                >
+                  <span
+                    className={`absolute inset-x-0 top-0 h-px bg-gradient-to-r transition-opacity duration-300 ${
+                      isSelected
+                        ? 'from-accent-400 via-highlight-400 to-accent-400 opacity-100'
+                        : 'from-accent-400/70 via-accent-400/20 to-transparent'
+                    }`}
+                  />
 
-                <div className="mb-4 flex items-start justify-between gap-4">
-                  <h3 className="font-display text-lg font-semibold leading-snug text-white transition-colors group-hover:text-accent-300">
-                    {project.title}
-                  </h3>
-                  <span className="shrink-0 rounded-full border border-accent-400/25 bg-accent-400/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-accent-300">
-                    {project.status}
-                  </span>
-                </div>
+                  <div className="mb-4 flex items-start justify-between gap-4">
+                    <h3 className={`font-display text-lg font-semibold leading-snug transition-colors ${
+                      isSelected ? 'text-accent-300' : 'text-white group-hover:text-accent-300'
+                    }`}>
+                      {project.title}
+                    </h3>
+                    <span className={`shrink-0 rounded-full border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors ${
+                      isSelected
+                        ? 'border-accent-400/60 bg-accent-400 text-gray-950'
+                        : 'border-accent-400/25 bg-accent-400/10 text-accent-300'
+                    }`}>
+                      {project.status}
+                    </span>
+                  </div>
 
-                <p className="mb-6 text-sm leading-relaxed text-gray-400">{project.description}</p>
+                  <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.18em] text-gray-500">{project.fit}</p>
 
-                <div className="mb-6 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-gray-500">What it demonstrates</p>
-                  <p className="mt-1 text-sm font-semibold text-accent-300">{project.metrics}</p>
-                </div>
+                  <p className="mb-6 text-sm leading-relaxed text-gray-400">{project.description}</p>
 
-                <div className="mt-auto flex flex-wrap gap-2">
-                  {project.technologies.map((tech) => (
-                    <motion.span key={tech} whileHover={{ y: -2 }} className="chip">
-                      {tech}
-                    </motion.span>
-                  ))}
-                </div>
-              </motion.article>
-            </RevealItem>
-          ))}
+                  <div className="mb-6 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-gray-500">What it demonstrates</p>
+                    <p className="mt-1 text-sm font-semibold text-accent-300">{project.metrics}</p>
+                  </div>
+
+                  <div
+                    className={`grid transition-all duration-300 ease-in-out ${
+                      isSelected ? 'mb-6 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                    }`}
+                  >
+                    <ul className="space-y-2 overflow-hidden">
+                      {project.highlights.map((point) => (
+                        <li key={point} className="flex gap-2.5 text-sm leading-relaxed text-gray-300">
+                          <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-highlight-400" />
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="mt-auto flex flex-wrap gap-2">
+                    {project.technologies.map((tech) => (
+                      <motion.span key={tech} whileHover={{ y: -2 }} className="chip">
+                        {tech}
+                      </motion.span>
+                    ))}
+                  </div>
+
+                  <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.18em] text-gray-500">
+                    {isSelected ? '● Spotlighted — click another card to compare' : '○ Click to spotlight'}
+                  </p>
+                </motion.article>
+              </RevealItem>
+            );
+          })}
         </RevealGroup>
       </div>
     </section>
