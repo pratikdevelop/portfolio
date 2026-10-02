@@ -51,8 +51,8 @@ const Portfolio = () => {
 
   const handleDownloadPDF = () => {
     const link = document.createElement('a');
-    link.href = '/Pratik_Raut_Full_Stack_Developer_Nodejs_React.pdf';
-    link.download = 'Pratik_Raut_Full_Stack_MERN_Resume.pdf';
+    link.href = '/Pratik_Raut_Software_Engineer_Resume.pdf';
+    link.download = 'Pratik_Raut_Software_Engineer_Resume.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
